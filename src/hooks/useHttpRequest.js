@@ -1,7 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 
 const getAuthHeaders = () => {
-  const headers = { "Content-Type": "application/json" };
+  let authToken = localStorage.getItem("bagisto_user_token");
+  authToken = "Bearer " + authToken;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: authToken,
+  };
   return headers;
 };
 
@@ -15,7 +20,7 @@ export const useFetch = (url) => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(url, { signal, headers: getAuthHeaders(),  });
+        const res = await fetch(url, { signal, headers: getAuthHeaders() });
         if (!res.ok) throw new Error(`Erreur ${res.status}`);
         const json = await res.json();
         setData(json);
@@ -59,7 +64,6 @@ export const useMutation = (url, method = "POST") => {
         method,
         headers: getAuthHeaders(),
         body: JSON.stringify(body),
-        
       });
 
       if (!res.ok) throw new Error(`Erreur ${res.status}`);
@@ -96,7 +100,6 @@ export const useLazyFetch = (baseUrl) => {
           method: "GET",
           signal: controller.signal,
           headers: getAuthHeaders(),
-          
         });
 
         if (!res.ok) {

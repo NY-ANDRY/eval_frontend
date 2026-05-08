@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+:root {
+    /* --color-primary: #fefefe; */
+}
+
 button, .btn {
     @apply cursor-pointer px-2 py-2 rounded-sm transition-all;
 }
@@ -10,5 +14,21 @@ input, .input {
 }
 
 .activable-white {
-    @apply text-neutral-700 hover:text-neutral-900 bg-neutral-50 hover:bg-neutral-100 active:bg-neutral-300;
+    @apply text-neutral-700 hover:text-neutral-900 bg-neutral-50 hover:bg-neutral-100 active:bg-neutral-200 transition-all cursor-pointer;
+}
+
+.box-icon {
+    @apply flex items-center justify-center w-8 h-8 bg-green-400 rounded-sm text-white;
+}
+
+.box-icon svg {
+    @apply w-5 h-5;
+}
+
+.box-icon-red {
+    @apply flex items-center justify-center w-8 h-8 bg-red-500 hover:bg-red-600 transition-all rounded-sm text-white;
+}
+
+.box-icon-red svg {
+    @apply w-5 h-5;
 }
