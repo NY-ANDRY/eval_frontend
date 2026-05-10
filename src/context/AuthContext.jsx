@@ -13,21 +13,26 @@ export const AuthProvider = ({ children }) => {
   const { notify } = useNotification();
 
   const login = async (email, password) => {
-    const loginRes = await mutateLogin({
-      email,
-      password,
-      device_name: "web"
-    });
+    try {
+      const loginRes = await mutateLogin({
+        email,
+        password,
+        device_name: "web"
+      });
 
-    if (!loginRes.token) {
-      return;
+      if (!loginRes?.token) {
+        notify("login failed");
+        return;
+      }
+
+      localStorage.setItem("bagisto_user_token", loginRes.token);
+      localStorage.setItem("bagisto_user", JSON.stringify(loginRes.data));
+      refreshUser();
+
+      notify(loginRes?.message + " / ok");
+    } catch (error) {
+      notify("error login: " + error.message);
     }
-
-    localStorage.setItem("bagisto_user_token", loginRes.token);
-    localStorage.setItem("bagisto_user", JSON.stringify(loginRes.data));
-    refreshUser();
-    
-    notify("login ok");
   };
 
   const logout = async () => {
