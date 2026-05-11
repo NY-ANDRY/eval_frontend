@@ -1,24 +1,20 @@
-import ListProducts from "../components/products/ListProducts";
 import { useNotification } from "../context/NotificationContext";
-import { removeAllProducts } from "../services/ProductsService";
+import ListCategories from "../components/categories/ListCategories";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const { notify } = useNotification();
 
-  const handleTest = () => {
-    // notify("abc");
-    removeAllProducts(notify);
+  const hancleClickCategory = (category) => {
+    navigate(`/categories/${category.id}/products`);
   }
 
   return (
-    <div className="flex flex-col p-4">
-
-      <div className="flex h-72">
-        abc
+    <div className="flex flex-col items-center">
+      <div className="w-7xl">
+      <ListCategories onClickCategory={hancleClickCategory} />
       </div>
-      <button onClick={handleTest} >test</button>
-      <ListProducts />
-
     </div>
   );
 };

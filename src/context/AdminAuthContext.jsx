@@ -1,13 +1,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useMutation } from "../hooks/useHttpRequest";
-import { API_URL } from "../lib/const";
+import { API_URL_ADMIN } from "../lib/const";
 import { useNotification } from "./NotificationContext";
 
-const AuthContext = createContext(null);
+const AdminAuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
-  const { mutate: mutateLogin } = useMutation(`${API_URL}/login`, 'POST');
-  const { mutate: mutateLogout } = useMutation(`${API_URL}/logout`, 'DELETE');
+export const AdminAuthProvider = ({ children }) => {
+  const { mutate: mutateLogin } = useMutation(`${API_URL_ADMIN}/login`, 'POST');
+  const { mutate: mutateLogout } = useMutation(`${API_URL_ADMIN}/logout`, 'DELETE');
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
@@ -25,8 +25,8 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
-      localStorage.setItem("bagisto_user_token", loginRes.token);
-      localStorage.setItem("bagisto_user", JSON.stringify(loginRes.data));
+      localStorage.setItem("bagisto_admin_token", loginRes.token);
+      localStorage.setItem("bagisto_admin", JSON.stringify(loginRes.data));
       refreshUser();
 
       notify(loginRes?.message + " / ok");
@@ -37,15 +37,15 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     mutateLogout();
-    localStorage.removeItem("bagisto_user_token");
-    localStorage.removeItem("bagisto_user");
+    localStorage.removeItem("bagisto_admin_token");
+    localStorage.removeItem("bagisto_admin");
     refreshUser();
 
     notify("logout ok");
   };
 
   const refreshUser = () => {
-    let userStorage = localStorage.getItem("bagisto_user");
+    let userStorage = localStorage.getItem("bagisto_admin");
     if (userStorage) {
       let userStorageParse = JSON.parse(userStorage);
       setUser(userStorageParse);
@@ -63,10 +63,10 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AdminAuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
-    </AuthContext.Provider>
+    </AdminAuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAdminAuth = () => useContext(AdminAuthContext);

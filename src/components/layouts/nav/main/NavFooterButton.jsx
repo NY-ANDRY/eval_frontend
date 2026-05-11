@@ -1,9 +1,9 @@
 import { User, ChevronsUpDown, LogOutIcon, User2Icon, DoorClosed } from "lucide-react";
-import { useAuth } from "../../../../context/AuthContext";
+import { useAdminAuth } from "../../../../context/AdminAuthContext";
 import { useRef, useState } from "react";
 
 const NavFooterButton = ({ }) => {
-    const { user } = useAuth();
+    const { user } = useAdminAuth();
 
     return (
         <>
@@ -21,7 +21,7 @@ const LoginButton = ({ }) => {
     const modalRef = useRef(null);
     const [email, setEmail] = useState("nyandrypaulferdinah@gmail.com");
     const [pwd, setPwd] = useState("abcabcabc");
-    const { login } = useAuth();
+    const { login } = useAdminAuth();
 
     const handleOpen = () => {
         if (modalRef) {
@@ -62,7 +62,7 @@ const LoginButton = ({ }) => {
 };
 
 const AuthMenuButton = ({ }) => {
-    const { user, logout } = useAuth();
+    const { user, logout } = useAdminAuth();
 
     return (
         <div className="dropdown dropdown-right dropdown-end">

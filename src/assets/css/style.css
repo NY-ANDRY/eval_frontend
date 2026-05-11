@@ -5,11 +5,17 @@
     /* --color-primary: #fefefe; */
 }
 
-button, .btn {
+h1 {
+    @apply text-3xl font-[inter-l] text-neutral-800;
+}
+
+button,
+.btn {
     @apply cursor-pointer px-2 py-2 rounded-sm transition-all;
 }
 
-input, .input {
+input,
+.input {
     @apply rounded-sm;
 }
 
@@ -31,4 +37,24 @@ input, .input {
 
 .box-icon-red svg {
     @apply w-5 h-5;
+}
+
+.dangerous_txt p {
+    @apply line-clamp-1;
+}
+
+.activable {
+    @apply hover:bg-neutral-50 transition-all cursor-pointer active:bg-neutral-100;
+}
+
+.header-nav a {
+    @apply hover:bg-neutral-100 active:bg-neutral-200 transition-all rounded;
+}
+
+table th {
+    @apply text-left font-[inter-el] text-neutral-400 text-sm;
+}
+
+table td {
+    @apply text-neutral-800
 }

@@ -1,7 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 
-const getAuthHeaders = () => {
-  let authToken = localStorage.getItem("bagisto_user_token");
+export const getAuthHeaders = (role = "client") => {
+  let authToken = localStorage.getItem("bagisto_client_token");
+
+  if (role == "admin") {
+    authToken = localStorage.getItem("bagisto_admin_token");
+  }
+
   authToken = "Bearer " + authToken;
   const headers = {
     "Content-Type": "application/json",

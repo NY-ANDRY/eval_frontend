@@ -1,0 +1,23 @@
+import { useParams } from "react-router-dom";
+import { useFetch } from "../../hooks/useHttpRequest";
+import { API_URL_CLIENT } from "../../lib/const";
+import Product from "../../components/products/Product";
+
+const CategoryProducts = () => {
+    const { id: categoryId } = useParams();
+    const { data: category } = useFetch(`${API_URL_CLIENT}/categories/${categoryId}`);
+    const { data: products } = useFetch(`${API_URL_CLIENT}/products?category_id=${categoryId}`);
+
+    return (
+        <div className="flex flex-col gap-4 pt-6">
+            <h1 className="mb-8">{category?.data?.name}</h1>
+            <div className="flex flex-wrap gap-2">
+            {products && products?.data && products?.data.map((product, i) => (
+                <Product key={product.id} product={product} />
+            ))}
+            </div>
+        </div>
+    )
+}
+
+export default CategoryProducts;
