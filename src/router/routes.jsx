@@ -7,61 +7,10 @@ import Cart from "../pages/cart/Cart";
 import Checkout from "../pages/cart/Checkout";
 import ProductDetails from "../pages/products/ProductDetails";
 import Order from "../pages/orders/Order";
-
-const routes = [
-  {
-    path: "/",
-    component: Home,
-    title: "Accueil",
-  },
-  {
-    path: "/login",
-    component: Login,
-    title: "Login",
-  },
-  {
-    path: "/categories/:id/products",
-    component: CategoryProducts,
-    title: "category products",
-  },
-  {
-    path: "/products/:id",
-    component: ProductDetails,
-    title: "product",
-  },
-  {
-    path: "/cart",
-    component: Cart,
-    title: "cart",
-  },
-  {
-    path: "/cart/:id/checkout",
-    component: Checkout,
-    title: "cart checkout",
-  },
-  {
-    path: "/order",
-    component: Order,
-    title: "cart",
-  },
-  {
-    path: "/examples/csv",
-    component: ReadFileExample,
-    title: "Accueil",
-  },
-  {
-    path: "*",
-    component: NotFound,
-    title: "Not Found",
-  },
-];
-
-export default routes;
-
 import Layout from "../components/layouts/Layout";
 import BackOfficeLayout from "../components/layouts/BackOfficeLayout";
 
-export const advancedRoute = [
+const rounte = [
   {
     path: "/backoffice",
     element: <BackOfficeLayout />,
@@ -115,3 +64,5 @@ export const advancedRoute = [
     element: <NotFound />,
   },
 ];
+
+export default rounte;
