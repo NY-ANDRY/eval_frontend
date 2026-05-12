@@ -16,7 +16,7 @@ button,
 
 input,
 .input {
-    @apply rounded-sm;
+    @apply rounded-sm focus:outline-0;
 }
 
 .activable-white {

@@ -25,7 +25,10 @@ export const useFetch = (url) => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(url, { signal, headers: getAuthHeaders() });
+        const res = await fetch(url, {
+          signal,
+          headers: getAuthHeaders(),
+        });
         if (!res.ok) throw new Error(`Erreur ${res.status}`);
         const json = await res.json();
         setData(json);

@@ -29,3 +29,13 @@ const AppRoutes = () => {
 };
 
 export default AppRoutes;
+
+import { useRoutes } from "react-router-dom";
+import { advancedRoute } from "./routes";
+
+export function AppRoute2() {
+  const routes = useRoutes(advancedRoute);
+
+  return routes;
+}
+

@@ -1,4 +1,4 @@
-import AppRoutes from "./router/AppRoutes";
+import AppRoutes, {AppRoute2} from "./router/AppRoutes";
 import "./assets/css/style.css";
 import "./assets/css/font.css";
 import { AdminAuthProvider } from "./context/AdminAuthContext";
@@ -12,7 +12,7 @@ const App = () => {
       <ClientAuthProvider>
         <AdminAuthProvider>
           <ClientCartProvider>
-            <AppRoutes />
+            <AppRoute2 />
           </ClientCartProvider>
         </AdminAuthProvider>
       </ClientAuthProvider>

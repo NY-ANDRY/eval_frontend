@@ -8,6 +8,8 @@ const ClientCartContext = createContext(null);
 export const ClientCartProvider = ({ children }) => {
   const { notify } = useNotification();
   const { data: cartItems, refetch: refetchCartItem } = useFetch(`${API_URL_CLIENT}/customer/cart`);
+  const { mutate: mutateRemoveCart } = useMutation(`${API_URL_CLIENT}/customer/cart/remove`, 'DELETE');
+  const { mutate: mutateUpdateCart } = useMutation(`${API_URL_CLIENT}/customer/cart/update`, 'PUT');
 
   const addProductToCart = async (product, qtt) => {
 
@@ -32,16 +34,38 @@ export const ClientCartProvider = ({ children }) => {
     }
   }
 
-  const updateQtt = (product, qtt) => {
+  const updateQtt = async (cartItem, qtt) => {
+    const updateDataa = {
+      qty: {
+        [cartItem.id]: qtt
+      }
+    };
+    await mutateUpdateCart(updateDataa);
+
+    refetchCartItem();
+    notify('produit mis a jour', 1);
+  };
+
+  const removeCartItem = async (cartItem) => {
+    const res = await fetch(`${API_URL_CLIENT}/customer/cart/remove/${cartItem.id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+
+    refetchCartItem();
+    notify('row deleted');
 
   }
 
-  const removeProduct = (product) => {
+  const removeCart = async () => {
+    await mutateRemoveCart();
+    refetchCartItem();
 
+    notify('remove cart');
   }
 
   return (
-    <ClientCartContext.Provider value={{ cartItems, addProductToCart }}>
+    <ClientCartContext.Provider value={{ cartItems, addProductToCart, updateQtt, removeCartItem, removeCart }}>
       {children}
     </ClientCartContext.Provider>
   );

@@ -19,12 +19,20 @@ const ListCategories = ({ onClickCategory }) => {
     return (
         <div className="grid grid-cols-1 flex-wrap gap-0 max-w-full overflow-hidden overflow-x-auto">
             {categories?.data?.map((category, index) => (
-                <a onClick={(e) => { handleClick(e, category) }} href={`/categories/${category.id}`} key={category.id} className="flex flex-col justify-between gap-2 px-2 py-4 border-b border-neutral-200 rounded-sm activable">
-                    <div className="flex">
-                        {category.name}
-                    </div>
-                    <div className="flex">
-                        <div className="dangerous_txt flex text-xs text-neutral-400 w-2/3" dangerouslySetInnerHTML={{ __html: category.description }}></div>
+                <a onClick={(e) => { handleClick(e, category) }} href={`/categories/${category.id}`} key={category.id} className="flex gap-6  px-2 py-4 border-b border-neutral-200 rounded-sm activable">
+                    {category.logo_url ?
+                        <img src={category.logo_url} className="w-16 h-16 mask mask-squircle" />
+                        :
+                        <div className="w-16 h-16 mask mask-squircle bg-neutral-200" />
+                    }
+                    <div className="flex flex-col gap-5">
+
+                        <div className="flex">
+                            {category.name}
+                        </div>
+                        <div className="flex">
+                            <div className="dangerous_txt flex text-xs text-neutral-400 w-2/3" dangerouslySetInnerHTML={{ __html: category.description }}></div>
+                        </div>
                     </div>
                 </a>
             ))}

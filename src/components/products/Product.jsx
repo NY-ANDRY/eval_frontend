@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const ViewProducts = ({ product }) => {
     const { addProductToCart } = useClientCart();
-    const [qtt, setQtt] = useState(0);
+    const [qtt, setQtt] = useState(1);
 
     const handleAddToCart = () => {
         addProductToCart(product, qtt)

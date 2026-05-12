@@ -9,7 +9,7 @@ export const NotificationProvider = ({ children }) => {
   const [notificationId, setNotificationId] = useState(0);
   const notify = (content, durationSec = 3) => {
     setNotificationId(prev => prev + 1);
-    const id = notificationId;
+    const id = Date.now();
 
     setNotifications((prev) => [
       ...prev,
@@ -26,7 +26,7 @@ export const NotificationProvider = ({ children }) => {
   return (
     <NotificationContext.Provider value={{ notify }}>
 
-      <div className="fixed top-4 left-1/2 flex flex-col gap-2 z-50">
+      <div className="fixed top-4 right-12 flex flex-col gap-2 z-50">
         <AnimatePresence mode="popLayout">
           {notifications.map((notification) => (
             <motion.div
@@ -35,7 +35,7 @@ export const NotificationProvider = ({ children }) => {
               exit={{ opacity: 0, y: -10 }}
               key={notification.id}
               layout
-              className="relative bg-neutral-50 text-neutral-800 px-4 py-3.5 rounded border border-neutral-200 shadow-xs w-72 right-36"
+              className="relative bg-neutral-50 text-neutral-800 px-4 py-3.5 rounded border border-neutral-200 shadow-xs w-72"
             >
               {notification.content}
             </motion.div>

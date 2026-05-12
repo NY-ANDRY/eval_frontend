@@ -6,12 +6,12 @@ import { img } from "motion/react-client";
 import { useClientCart } from "../../context/ClientCartContext";
 import { Trash2Icon, PlusIcon, MinusIcon, ShoppingCart } from "lucide-react";
 
-const ProductDetails = ({ product }) => {
+const ProductDetails = ({ }) => {
     const { id } = useParams();
     const { data: productData } = useFetch(`${API_URL_CLIENT}/products/${id}`);
     const { addProductToCart } = useClientCart();
 
-    const { qtt, setQtt } = useState(0);
+    const [qtt, setQtt] = useState(0);
 
     const [curImage, setCurImage] = useState('');
 
@@ -20,15 +20,21 @@ const ProductDetails = ({ product }) => {
             return;
         }
 
-        if (productData.data.images.length > 0) {   a
+        if (productData.data.images.length > 0) {
             setCurImage(productData.data.images[0].large_image_url);
         }
 
     }, [productData]);
 
     const handleAddToCart = () => {
-        addProductToCart(product, qtt)
+        addProductToCart(productData.data, qtt)
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        handleAddToCart();
+    }
+
     return (
         <div className="flex justify-between py-4">
             <div className="flex gap-2">
@@ -42,11 +48,12 @@ const ProductDetails = ({ product }) => {
                 </div>
             </div>
             <div className="flex flex-col">
-                <div className="flex items-center gap-2">
+                <form onSubmit={handleSubmit} className="flex items-center gap-2">
                     <PlusIcon onClick={() => { setQtt((prev) => Number(prev) - 1) }} />
-                    <input value={qtt} type="number" className="input" />
-                    <PlusIcon onClick={() => { setQtt((prev) => Number(prev) - 1) }} />
-                </div>
+                    <input onChange={(e) => setQtt(e.target.value)} value={qtt} type="number" className="input" />
+                    <PlusIcon onClick={() => { setQtt((prev) => Number(prev) + 1) }} />
+                        <button type="submit" className="btn btn-sm btn-primary">valider</button>
+                </form>
             </div>
         </div>
     )
