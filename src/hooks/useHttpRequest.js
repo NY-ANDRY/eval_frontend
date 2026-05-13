@@ -15,6 +15,10 @@ export const getAuthHeaders = (role = "client") => {
   return headers;
 };
 
+export const getAuthClientHeader = () => {
+  return getAuthHeaders("client");
+};
+
 export const getAuthAdminHeader = () => {
   return getAuthHeaders("admin");
 };

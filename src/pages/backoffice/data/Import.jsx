@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CsvReader from "../../../components/reader/CsvReader";
 import { useNotification } from "../../../context/NotificationContext";
-import { DataImport } from "../../../services/importData.js";
+import { DataImport } from "../../../services/DataImport.js";
 
 const Import = () => {
     const { notify, setGlobalLoading } = useNotification();
