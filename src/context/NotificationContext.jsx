@@ -6,10 +6,8 @@ const NotificationContext = createContext(null);
 export const NotificationProvider = ({ children }) => {
 
   const [notifications, setNotifications] = useState([]);
-  const [notificationId, setNotificationId] = useState(0);
   const notify = (content, durationSec = 3) => {
-    setNotificationId(prev => prev + 1);
-    const id = Date.now();
+    const id = Date.now() + Math.random().toString();
 
     setNotifications((prev) => [
       ...prev,

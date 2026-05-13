@@ -15,6 +15,10 @@ export const getAuthHeaders = (role = "client") => {
   return headers;
 };
 
+export const getAuthAdminHeader = () => {
+  return getAuthHeaders("admin");
+};
+
 export const useFetch = (url, role = "client") => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -60,11 +64,11 @@ export const useFetch = (url, role = "client") => {
 
 export const useClientFetch = (url) => {
   return useFetch(url, "client");
-}
+};
 
 export const useAdminFetch = (url) => {
   return useFetch(url, "admin");
-}
+};
 
 export const useMutation = (url, method = "POST", role = "client") => {
   const [loading, setLoading] = useState(false);
@@ -99,11 +103,11 @@ export const useMutation = (url, method = "POST", role = "client") => {
 
 export const useClientMutation = (url, method) => {
   return useMutation(url, method, "client");
-}
+};
 
 export const useAdminMutation = (url, method) => {
   return useMutation(url, method, "admin");
-}
+};
 
 export const useLazyFetch = (baseUrl) => {
   const [data, setData] = useState(null);

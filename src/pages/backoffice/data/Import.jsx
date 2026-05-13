@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { data } from "react-router-dom";
 import CsvReader from "../../../components/reader/CsvReader";
-import JsonView from "@uiw/react-json-view";
 import { useNotification } from "../../../context/NotificationContext";
-import { getAuthHeaders } from "../../../hooks/useHttpRequest";
+import { DataImport } from "../../../services/importData.js";
 
 const Import = () => {
     const { notify } = useNotification();
@@ -12,15 +10,15 @@ const Import = () => {
     const [clientData, setClientData] = useState(null);
     const [orderData, setOrderData] = useState(null);
 
-    const handleTest = () => {
+    const handleTest = async () => {
         if (!productData || !clientData || !orderData) {
             notify("les 3 fichier sont requis")
             return;
         }
-        console.log(productData);
-        console.log(clientData);
-        console.log(orderData);
-        
+
+        const di = new DataImport(productData, clientData, orderData);
+        di.setNotify(notify);
+        await di.import();
     }
 
     return (

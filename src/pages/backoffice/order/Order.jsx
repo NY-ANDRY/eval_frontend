@@ -20,7 +20,7 @@ const Order = () => {
                 </thead>
                 <tbody>
                     {ordersData?.data?.map((order, i) => (
-                        <OrderRow order={order} onUpdate={refechOrderData} />
+                        <OrderRow key={order.id} order={order} onUpdate={refechOrderData} />
                     ))}
                 </tbody>
             </table>
