@@ -1,8 +1,8 @@
-import { User, ChevronsUpDown, LogOutIcon, User2Icon, DoorClosed } from "lucide-react";
-import { useAdminAuth } from "../../../../context/AdminAuthContext";
+import { User, ChevronsUpDown, LogOutIcon, UserIcon, DoorClosed } from "lucide-react";
+import { useAdminAuth } from "../../../../../context/AdminAuthContext";
 import { useRef, useState } from "react";
 
-const NavFooterButton = ({ }) => {
+const SidebarFooterButton = ({ }) => {
     const { user } = useAdminAuth();
 
     return (
@@ -85,7 +85,7 @@ const AuthMenuButton = ({ }) => {
             <div tabIndex="-1" className="dropdown-content left-[102%] menu bg-base-100 rounded-sm z-1 w-48 p-1 shadow-sm border border-neutral-200 bg-neutral-50 transition-all">
                 <div className="flex flex-col gap-1 font-inter-l">
                     <button className="flex gap-1.5 items-center text-xs capitalize relative activable-white">
-                        <User2Icon className="w-3.5 h-3.5 mr-2 relative -top-px" />
+                        <UserIcon className="w-3.5 h-3.5 mr-2 relative -top-px" />
                         <span>
                             profile
                         </span>
@@ -102,4 +102,4 @@ const AuthMenuButton = ({ }) => {
     );
 };
 
-export default NavFooterButton;
+export default SidebarFooterButton;

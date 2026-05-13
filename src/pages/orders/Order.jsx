@@ -1,11 +1,11 @@
 import { tr } from "motion/react-client";
-import { useFetch } from "../../hooks/useHttpRequest";
+import { useClientFetch } from "../../hooks/useHttpRequest";
 import { API_URL_CLIENT } from "../../lib/const";
 import { formatDateFr } from "../../lib/utils";
 
 const Order = ({ }) => {
 
-    const { data: orders } = useFetch(`${API_URL_CLIENT}/customer/orders`);
+    const { data: orders } = useClientFetch(`${API_URL_CLIENT}/customer/orders`);
 
     return (
         <div className="flex flex-col">
@@ -14,6 +14,7 @@ const Order = ({ }) => {
                 <thead>
                     <tr>
                         <th>id</th>
+                        <th>statut</th>
                         <th>date</th>
                         <th>total</th>
                         <th></th>
@@ -23,6 +24,7 @@ const Order = ({ }) => {
                     {orders?.data?.map((order, i) => (
                         <tr>
                             <td>{order.id}</td>
+                            <td>{order.status_label}</td>
                             <td>{formatDateFr(order.updated_at)}</td>
                             <td>{order.formatted_grand_total}</td>
                             <td>

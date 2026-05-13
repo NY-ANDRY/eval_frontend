@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useFetch, useMutation, getAuthHeaders } from "../hooks/useHttpRequest";
+import { useClientFetch, useClientMutation, getAuthHeaders } from "../hooks/useHttpRequest";
 import { API_URL_CLIENT } from "../lib/const";
 import { useNotification } from "./NotificationContext";
 
@@ -7,9 +7,9 @@ const ClientCartContext = createContext(null);
 
 export const ClientCartProvider = ({ children }) => {
   const { notify } = useNotification();
-  const { data: cartItems, refetch: refetchCartItem } = useFetch(`${API_URL_CLIENT}/customer/cart`);
-  const { mutate: mutateRemoveCart } = useMutation(`${API_URL_CLIENT}/customer/cart/remove`, 'DELETE');
-  const { mutate: mutateUpdateCart } = useMutation(`${API_URL_CLIENT}/customer/cart/update`, 'PUT');
+  const { data: cartItems, refetch: refetchCartItem } = useClientFetch(`${API_URL_CLIENT}/customer/cart`);
+  const { mutate: mutateRemoveCart } = useClientMutation(`${API_URL_CLIENT}/customer/cart/remove`, 'DELETE');
+  const { mutate: mutateUpdateCart } = useClientMutation(`${API_URL_CLIENT}/customer/cart/update`, 'PUT');
 
   const addProductToCart = async (product, qtt) => {
 
@@ -21,7 +21,7 @@ export const ClientCartProvider = ({ children }) => {
 
     const res = await fetch(`${API_URL_CLIENT}/customer/cart/add/${product.id}`, {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: getAuthHeaders("client"),
       body: JSON.stringify(bodyToSend),
     });
 

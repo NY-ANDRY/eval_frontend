@@ -2,7 +2,7 @@ import { FanIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const NavButton = ({ to, label, icon }) => {
+const SidebarButton = ({ to, label, icon }) => {
     const location = useLocation();
     const [active, setActive] = useState(false);
 
@@ -24,4 +24,4 @@ const NavButton = ({ to, label, icon }) => {
     );
 };
 
-export default NavButton;
+export default SidebarButton;

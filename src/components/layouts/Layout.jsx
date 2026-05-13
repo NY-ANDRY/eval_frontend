@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import { useLocation, useOutlet } from "react-router-dom";
-import Nav from "./nav/main/Nav";
 import Header from "./Header";
 import { AnimatePresence, motion } from "motion/react";
 

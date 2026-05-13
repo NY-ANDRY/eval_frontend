@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../context/NotificationContext";
-import { useFetch, useMutation } from "../../hooks/useHttpRequest";
+import { useClientFetch, useClientMutation } from "../../hooks/useHttpRequest";
 import { API_URL_CLIENT } from "../../lib/const";
 import { useEffect, useState } from "react";
 import { code, option } from "motion/react-client";
@@ -12,12 +12,12 @@ const Checkout = () => {
     const navigate = useNavigate();
     const { user } = useClientAuth();
 
-    const { data: countries } = useFetch(`${API_URL_CLIENT}/countries?limit=1000`);
+    const { data: countries } = useClientFetch(`${API_URL_CLIENT}/countries?limit=1000`);
 
-    const { mutate: mutateSaveAddress } = useMutation(`${API_URL_CLIENT}/customer/checkout/save-address`);
-    const { mutate: mutateSaveShipping } = useMutation(`${API_URL_CLIENT}/customer/checkout/save-shipping`);
-    const { mutate: mutateSavePayment } = useMutation(`${API_URL_CLIENT}/customer/checkout/save-payment`);
-    const { mutate: mutateSaveOrder } = useMutation(`${API_URL_CLIENT}/customer/checkout/save-order`);
+    const { mutate: mutateSaveAddress } = useClientMutation(`${API_URL_CLIENT}/customer/checkout/save-address`);
+    const { mutate: mutateSaveShipping } = useClientMutation(`${API_URL_CLIENT}/customer/checkout/save-shipping`);
+    const { mutate: mutateSavePayment } = useClientMutation(`${API_URL_CLIENT}/customer/checkout/save-payment`);
+    const { mutate: mutateSaveOrder } = useClientMutation(`${API_URL_CLIENT}/customer/checkout/save-order`);
 
     const [companyName, setCompanyName] = useState('Gistoba');
     const [prenom, setPrenom] = useState('');

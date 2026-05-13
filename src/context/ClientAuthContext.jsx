@@ -1,16 +1,19 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useMutation } from "../hooks/useHttpRequest";
+import { useClientMutation } from "../hooks/useHttpRequest";
 import { API_URL_CLIENT } from "../lib/const";
 import { useNotification } from "./NotificationContext";
 
 const ClientAuthContext = createContext(null);
 
 export const ClientAuthProvider = ({ children }) => {
-  const { mutate: mutateLogin } = useMutation(`${API_URL_CLIENT}/customer/login`, 'POST');
-  const { mutate: mutateLogout } = useMutation(`${API_URL_CLIENT}/logout`, 'DELETE');
+  const { mutate: mutateLogin } = useClientMutation(`${API_URL_CLIENT}/customer/login`, 'POST');
+  const { mutate: mutateLogout } = useClientMutation(`${API_URL_CLIENT}/logout`, 'DELETE');
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
+  const [token, setToken] = useState(() =>
+    localStorage.getItem("bagisto_client_token"),
+  );
 
   const login = async (email, password) => {
     try {
@@ -63,7 +66,11 @@ export const ClientAuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <ClientAuthContext.Provider value={{ user, loading, login, logout }}>
+    <ClientAuthContext.Provider value={{
+      user, loading,
+      isAuthenticated: !!token,
+      login, logout
+    }}>
       {children}
     </ClientAuthContext.Provider>
   );

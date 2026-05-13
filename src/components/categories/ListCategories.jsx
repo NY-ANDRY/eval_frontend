@@ -1,11 +1,11 @@
-import { useFetch } from "../../hooks/useHttpRequest";
+import { useClientFetch } from "../../hooks/useHttpRequest";
 import { API_URL_CLIENT } from "../../lib/const";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const ListCategories = ({ onClickCategory }) => {
     const navigate = useNavigate();
-    const { data: categories } = useFetch(`${API_URL_CLIENT}/categories?limit=1000`);
+    const { data: categories } = useClientFetch(`${API_URL_CLIENT}/categories?limit=1000`);
 
     const handleClick = (e, category) => {
         e.preventDefault();

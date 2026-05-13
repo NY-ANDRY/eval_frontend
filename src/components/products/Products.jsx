@@ -1,9 +1,9 @@
-import { useFetch } from "../../hooks/useHttpRequest";
+import { useClientFetch } from "../../hooks/useHttpRequest";
 import { API_URL_ADMIN } from "../../lib/const";
 import Product from "./Product";
 
 const ListProducts = () => {
-    const { data: products } = useFetch(API_URL_ADMIN + "/catalog/products");
+    const { data: products } = useClientFetch(API_URL_ADMIN + "/catalog/products");
 
     return (
         <div className="flex gap-4 flex-wrap">

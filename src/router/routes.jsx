@@ -8,18 +8,52 @@ import Checkout from "../pages/cart/Checkout";
 import ProductDetails from "../pages/products/ProductDetails";
 import Order from "../pages/orders/Order";
 import Layout from "../components/layouts/Layout";
-import BackOfficeLayout from "../components/layouts/BackOfficeLayout";
+import BackOfficeLayout from "../components/admin/layouts/Layout";
+import AdminLogin from "../pages/backoffice/auth/Login";
+import ProtectedRoute from "../components/admin/auth/ProtectedRoute";
+import AdminOrder from "../pages/backoffice/order/Order";
+import Data from "../pages/backoffice/data/Data";
+import DataImport from "../pages/backoffice/data/Import";
 
-const rounte = [
+const routes = [
   {
-    path: "/backoffice",
-    element: <BackOfficeLayout />,
+    path: "backoffice",
     children: [
       {
-        path: "dashboard",
-        element: <></>
-      }
-    ],
+        path: "auth",
+        element: <AdminLogin />,
+      },
+      {
+        path: "",
+        element:
+          <ProtectedRoute>
+            <BackOfficeLayout />
+          </ProtectedRoute>
+        ,
+        children: [
+          {
+            path: "",
+            element: <>homeee</>
+          },
+          {
+            path: "order",
+            element: <AdminOrder />
+          },
+          {
+            path: "data",
+            element: <Data />
+          },
+          {
+            path: "import",
+            element: <DataImport />
+          },
+          {
+            path: "*",
+            element: <NotFound />,
+          },
+        ],
+      },
+    ]
   },
   {
     path: "",
@@ -65,4 +99,4 @@ const rounte = [
   },
 ];
 
-export default rounte;
+export default routes;

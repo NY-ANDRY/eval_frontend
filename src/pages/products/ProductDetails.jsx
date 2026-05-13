@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useFetch } from "../../hooks/useHttpRequest";
+import { useClientFetch } from "../../hooks/useHttpRequest";
 import { API_URL_CLIENT } from "../../lib/const";
 import { useEffect, useState } from "react";
 import { img } from "motion/react-client";
@@ -8,7 +8,7 @@ import { Trash2Icon, PlusIcon, MinusIcon, ShoppingCart } from "lucide-react";
 
 const ProductDetails = ({ }) => {
     const { id } = useParams();
-    const { data: productData } = useFetch(`${API_URL_CLIENT}/products/${id}`);
+    const { data: productData } = useClientFetch(`${API_URL_CLIENT}/products/${id}`);
     const { addProductToCart } = useClientCart();
 
     const [qtt, setQtt] = useState(0);

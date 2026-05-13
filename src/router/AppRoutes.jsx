@@ -1,10 +1,9 @@
-import routes from "./routes";
 import { useRoutes } from "react-router-dom";
-import { advancedRoute } from "./routes";
+import routes from "./routes";
 
 const AppRoutes = () => {
-  const routes = useRoutes(advancedRoute);
-  return routes;
+  const router = useRoutes(routes);
+  return router;
 }
 
 export default AppRoutes;

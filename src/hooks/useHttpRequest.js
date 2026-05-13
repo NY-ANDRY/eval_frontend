@@ -15,7 +15,7 @@ export const getAuthHeaders = (role = "client") => {
   return headers;
 };
 
-export const useFetch = (url) => {
+export const useFetch = (url, role = "client") => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,7 +27,7 @@ export const useFetch = (url) => {
       try {
         const res = await fetch(url, {
           signal,
-          headers: getAuthHeaders(),
+          headers: getAuthHeaders(role),
         });
         if (!res.ok) throw new Error(`Erreur ${res.status}`);
         const json = await res.json();
@@ -58,7 +58,15 @@ export const useFetch = (url) => {
   return { data, loading, error, refetch };
 };
 
-export const useMutation = (url, method = "POST") => {
+export const useClientFetch = (url) => {
+  return useFetch(url, "client");
+}
+
+export const useAdminFetch = (url) => {
+  return useFetch(url, "admin");
+}
+
+export const useMutation = (url, method = "POST", role = "client") => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [response, setResponse] = useState(null);
@@ -70,7 +78,7 @@ export const useMutation = (url, method = "POST") => {
     try {
       const res = await fetch(url, {
         method,
-        headers: getAuthHeaders(),
+        headers: getAuthHeaders(role),
         body: JSON.stringify(body),
       });
 
@@ -88,6 +96,14 @@ export const useMutation = (url, method = "POST") => {
 
   return { mutate, loading, error, response };
 };
+
+export const useClientMutation = (url, method) => {
+  return useMutation(url, method, "client");
+}
+
+export const useAdminMutation = (url, method) => {
+  return useMutation(url, method, "admin");
+}
 
 export const useLazyFetch = (baseUrl) => {
   const [data, setData] = useState(null);

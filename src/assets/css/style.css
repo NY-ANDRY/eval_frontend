@@ -58,3 +58,7 @@ table th {
 table td {
     @apply text-neutral-800
 }
+
+label {
+    @apply text-sm text-neutral-600 font-[inter-l];
+}
