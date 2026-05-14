@@ -1,0 +1,8 @@
+false
+0
+-0
+0n (BigInt zéro)
+"" (chaîne vide)
+null
+undefined
+NaN

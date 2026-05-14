@@ -9,8 +9,8 @@ const CategoryProducts = () => {
     const { data: products } = useClientFetch(`${API_URL_CLIENT}/products?category_id=${categoryId}`);
 
     return (
-        <div className="flex flex-col gap-4 pt-6">
-            <h1 className="mb-8">{category?.data?.name}</h1>
+        <div className="flex flex-col gap-4 p-2">
+            <h1 className="mb-6">{category?.data?.name}</h1>
             <div className="flex flex-wrap gap-2">
             {products && products?.data && products?.data.map((product, i) => (
                 <Product key={product.id} product={product} />

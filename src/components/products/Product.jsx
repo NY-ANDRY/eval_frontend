@@ -1,21 +1,53 @@
 import { useEffect, useState } from "react";
-import { useFetch } from "../../hooks/useHttpRequest";
-import { API_URL_ADMIN } from "../../lib/const";
-import { formatDateFr } from "../../lib/utils";
-import { Trash2Icon, PlusIcon, MinusIcon, ShoppingCart } from "lucide-react";
-import { useClientCart } from "../../context/ClientCartContext";
+import { PlusIcon, MinusIcon, ShoppingCart, StarIcon } from "lucide-react";
+import { useClientCart } from "../../context/ClientCartContext.jsx";
 import { Link } from "react-router-dom";
+import { useClientWishlist } from "../../context/ClientWishlistContext.jsx";
 
 const ViewProducts = ({ product }) => {
     const { addProductToCart } = useClientCart();
+    const { wishlistItemsData, addProductToWishList } = useClientWishlist();
+    const [inWL, setInWL] = useState(false);
     const [qtt, setQtt] = useState(1);
 
     const handleAddToCart = () => {
-        addProductToCart(product, qtt)
+        addProductToCart(product, qtt);
     }
 
+    const handleAddToWishList = () => {
+        addProductToWishList(product);
+    }
+
+    useEffect(() => {
+        if (!wishlistItemsData) {
+            return;
+        }
+
+        let found = false;
+        wishlistItemsData.data.forEach(item => {
+
+            if (item.product.id == product.id) {
+                found = true;
+                setInWL(true);
+            }
+        });
+
+        if (!found) {
+            setInWL(false);
+        }
+
+    }, [wishlistItemsData]);
+
     return (
-        <div className="flex flex-col gap-2 p-2 rounded-sm border border-neutral-200 w-62">
+        <div className="flex flex-col gap-2 p-2 rounded-sm border border-neutral-200 w-62 relative">
+
+            <div onClick={handleAddToWishList} className="absolute top-0 right-2 bg-neutral-100 shadow border border-neutral-200 border-t-0 w-8 h-12 flex flex-col items-center justify-center text-netral-800 rounded-b-sm cursor-pointer hover:bg-neutral-200 transition-all active:bg-neutral-300">
+                {inWL ?
+                    <StarIcon fill="#fdc700" className="text-transparent" /> :
+                    <StarIcon className="text-yellow-400" />
+                }
+            </div>
+
             <div className="flex items-center justify-center max-w-full h-62">
                 <img
                     src={product?.images?.length > 0 && product?.images[0].medium_image_url}

@@ -112,7 +112,7 @@ const Checkout = () => {
     }, [countries])
 
     return (
-        <div className="flex flex-col py-4 max-w-full">
+        <div className="flex flex-col py-4 max-w-full p-2">
             <div className="flex py-4 gap-2 w-full">
                 <div className="flex flex-col w-sm gap-2">
                     <div className="flex flex-col gap-2">

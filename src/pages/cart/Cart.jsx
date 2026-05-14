@@ -4,7 +4,7 @@ const Cart = () => {
 
 
     return (
-        <div className="flex w-full asdlkj">
+        <div className="flex w-full p-2">
             <CartComponent />
         </div>
     )

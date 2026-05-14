@@ -264,7 +264,7 @@ export class DataImageImport {
             body: formData
         })
 
-        this.notify("produit " + product.sku + " importer");
+        this.notify("image " + product.sku + " importer");
     }
 
     getProductBySku(sku: string): Product | null {

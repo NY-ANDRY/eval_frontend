@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { UserIcon, ShoppingCart, ScrollTextIcon } from "lucide-react";
+import { UserIcon, ShoppingCart, ScrollTextIcon, SparklesIcon } from "lucide-react";
 
 const Header = () => {
 
@@ -12,6 +12,9 @@ const Header = () => {
             </Link>
 
             <div className="header-nav flex items-center gap-4">
+                <Link to={'/wishlist'} className="p-2">
+                    <SparklesIcon className="w-6" />
+                </Link>
                 <Link to={'/order'} className="p-2">
                     <ScrollTextIcon className="w-6" />
                 </Link>

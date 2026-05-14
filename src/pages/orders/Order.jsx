@@ -8,7 +8,7 @@ const Order = ({ }) => {
     const { data: orders } = useClientFetch(`${API_URL_CLIENT}/customer/orders`);
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col p-2">
 
             <table className="table table-sm">
                 <thead>

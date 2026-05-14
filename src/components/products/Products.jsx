@@ -1,6 +1,6 @@
-import { useClientFetch } from "../../hooks/useHttpRequest";
-import { API_URL_ADMIN } from "../../lib/const";
-import Product from "./Product";
+import { useClientFetch } from "../../hooks/useHttpRequest.js";
+import { API_URL_ADMIN } from "../../lib/const.js";
+import Product from "./Product.jsx";
 
 const ListProducts = () => {
     const { data: products } = useClientFetch(API_URL_ADMIN + "/catalog/products");

@@ -36,7 +36,7 @@ const ProductDetails = ({ }) => {
     }
 
     return (
-        <div className="flex justify-between py-4">
+        <div className="flex justify-between p-2">
             <div className="flex gap-2">
                 <div className="flex flex-col gap-2">
                     {productData?.data?.images.map((image, i) => (

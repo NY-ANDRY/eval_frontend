@@ -1,5 +1,5 @@
-import { useNotification } from "../context/NotificationContext";
-import ListCategories from "../components/categories/ListCategories";
+import { useNotification } from "../context/NotificationContext.jsx";
+import ListCategories from "../components/categories/ListCategories.jsx";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
