@@ -38,6 +38,8 @@ export interface Category {
     status: string,
     created_at: string,
     updated_at: string,
+
+    ids_products: string[] | null | undefined
 }
 
 export interface Product {
@@ -50,3 +52,13 @@ export interface Product {
     categories: number[]
 }
 
+export interface LoginStorage {
+    email: string,
+    token: string,
+}
+
+export interface ImageZip {
+    name: string;
+    url: string;
+    blob: Blob;
+}

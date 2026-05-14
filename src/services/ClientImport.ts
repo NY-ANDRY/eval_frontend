@@ -10,7 +10,8 @@ export class ClientImport {
         this.dataImport = dataImport;
     }
 
-    async import(clientsCsv: ClientCsv[]) {
+    async import() {
+        const clientsCsv = this.dataImport.clientsCsv;
         if (clientsCsv.length <= 0) {
             this.notify("aucun client a importer");
         }

@@ -1,7 +1,7 @@
 import SidebarMainButton from "./SidebarMainButton";
 import SidebarFooterButton from "./SidebarFooterButton";
 import SidebarButton from "./SidebarButton";
-import { GaugeIcon, FileTypeCorner, DatabaseIcon, ScrollIcon } from "lucide-react";
+import { GaugeIcon, FileTypeCorner, FileImageIcon, DatabaseIcon, ScrollIcon } from "lucide-react";
 
 const navs = [
   {
@@ -31,6 +31,11 @@ const navs = [
         label: "import",
         url: "/backoffice/import",
         icon: <FileTypeCorner />
+      },
+      {
+        label: "import image",
+        url: "/backoffice/importImage",
+        icon: <FileImageIcon />
       }
     ]
   }

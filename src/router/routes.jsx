@@ -12,8 +12,9 @@ import BackOfficeLayout from "../components/admin/layouts/Layout";
 import AdminLogin from "../pages/backoffice/auth/Login";
 import ProtectedRoute from "../components/admin/auth/ProtectedRoute";
 import AdminOrder from "../pages/backoffice/order/Order";
-import Data from "../pages/backoffice/data/Data";
+import RemoveData from "../pages/backoffice/data/RemoveData";
 import DataImport from "../pages/backoffice/data/Import";
+import ImageImport from "../pages/backoffice/data/ImageImport.jsx";
 
 const routes = [
   {
@@ -41,11 +42,15 @@ const routes = [
           },
           {
             path: "data",
-            element: <Data />
+            element: <RemoveData />
           },
           {
             path: "import",
             element: <DataImport />
+          },
+          {
+            path: "importImage",
+            element: <ImageImport />
           },
           {
             path: "*",

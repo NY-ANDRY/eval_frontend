@@ -33,7 +33,7 @@ export class DataImport {
 
     async init() {
         await this.resetCategory();
-        await this.resetProductCache();
+        await this.resetProduct();
     }
 
     async resetCategory() {
@@ -61,7 +61,7 @@ export class DataImport {
             page++;
         }
     }
-    async resetProductCache() {
+    async resetProduct() {
         let page = 1;
         this.products = [];
 
@@ -91,13 +91,13 @@ export class DataImport {
         await this.init();
 
         if (this.productsCsv) {
-            await this.productImport.import(this.productsCsv);
+            await this.productImport.import();
         }
         if (this.clientImport) {
-            await this.clientImport.import(this.clientsCsv);
-        }
+            await this.clientImport.import();
+        }        
         if (this.orderImport) {
-            await this.orderImport.import(this.ordersCsv);
+            await this.orderImport.import();
         }
 
     }

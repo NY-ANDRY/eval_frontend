@@ -10,7 +10,8 @@ export class ProductImport {
         this.dataImport = dataImport;
     }
 
-    async import(productsCsv: ProductCsv[]) {
+    async import() {
+        const productsCsv = this.dataImport.productsCsv;
         if (productsCsv.length <= 0) {
             this.notify("aucun produit a importer");
         }
@@ -66,7 +67,7 @@ export class ProductImport {
         formData.append("weight", "10");
         formData.append("product_number", "");
         formData.append("short_description", "short desc");
-        // formData.append("locale", "all");
+        // formData.append("locale", "all"); // lasa tsy miditra n name sy description ra misy anty
         formData.append("manage_stock", "1");
         formData.append("description", "desc");
         formData.append("sku", productCsv.sku);
