@@ -95,7 +95,7 @@ export class DataImport {
         }
         if (this.clientImport) {
             await this.clientImport.import();
-        }        
+        }
         if (this.orderImport) {
             await this.orderImport.import();
         }
@@ -120,6 +120,7 @@ export class DataImport {
         this.ordersCsv?.forEach(order => {
             if (typeof order.achat === "string") {
                 order.achat = this.makeOrderItem(order.achat);
+                // order.achat = this.makeOrderItemIteration(order.achat);
             }
         });
     }
@@ -150,6 +151,64 @@ export class DataImport {
             rest = rest.slice(end + 1, rest.length);
             begin = rest.indexOf('[');
             end = rest.indexOf(']');
+        }
+
+        return result;
+    }
+
+    // stringOrderItem: {["sk-l";1],["sk-m";2]}
+    // rehefa manamoly n doneee
+    makeOrderItemIteration(stringOrderItem: string): OrderItemCsv[] {
+        const result: OrderItemCsv[] = [];
+
+        let leftChar = "[";
+        let rightChar = "]";
+        let ileft = null;
+        let iright = null;
+        let insideOfString = false;
+        let stringBegin = '"';
+
+        for (let i = 0; i < stringOrderItem.length; i++) {
+            const char = stringOrderItem[i];
+
+            if (insideOfString) {
+                if (char == stringBegin) {
+                    insideOfString = false;
+                }
+                continue;
+            }
+
+            if (char == stringBegin) {
+                insideOfString = true;
+                continue;
+            }
+            if (char == leftChar) {
+                ileft = i;
+            }
+            if (ileft != null && char == rightChar) {
+                iright = i;
+            }
+
+            if (ileft != null && iright != null) {
+                //
+                let txt = stringOrderItem.substring(ileft, iright + 1); // txt: ["sk-l";1]
+
+                txt = txt.slice(1, txt.length - 1); // txt: "sk-l";1
+
+                let parts = txt.split(";"); // parts: ['"sk-l"', '1']
+
+                let sku = parts[0]?.substring(1, parts[0].length - 1) ?? ""; //sku: 'sk-l'
+                let qtt = Number(parts[1]); // qtt: 1
+                const orderItem: OrderItemCsv = {
+                    sku: sku,
+                    qtt: qtt
+                };
+                result.push(orderItem);
+                // 
+                ileft = null;
+                iright = null;
+            }
+
         }
 
         return result;

@@ -1,5 +1,4 @@
 import { API_URL_ADMIN } from "../lib/const";
-import { useNotification } from "../context/NotificationContext";
 
 // page 1 only
 export const removeAllProducts = async (notify) => {

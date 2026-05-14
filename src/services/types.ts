@@ -49,7 +49,14 @@ export interface Product {
     price: string,
     cost: string,
     special_price: string,
-    categories: number[]
+    categories: string[]
+}
+
+export interface Customer {
+    id: string,
+    email: string,
+    name: string,
+    first_name: string,
 }
 
 export interface LoginStorage {

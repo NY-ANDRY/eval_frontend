@@ -53,15 +53,27 @@ export class ProductImport {
         formData.append("new", "1");
         formData.append("meta_description", "meta desc");
         formData.append("channel", "default");
-        formData.append("special_price", String(productCsv.prix_promo));
+        if (productCsv.prix_promo) {
+            formData.append("special_price", String(productCsv.prix_promo));
+        }
         formData.append("meta_keywords", "meta keyword");
         formData.append("brand", "17");
-        formData.append("price", String(productCsv.prix_vente));
-        formData.append("name", productCsv.name);
-        formData.append("cost", String(productCsv.prix_achat));
+        if (productCsv.prix_vente) {
+            formData.append("price", String(productCsv.prix_vente));
+        }
+        if (productCsv.name) {
+            formData.append("name", productCsv.name);
+        }
+        if (productCsv.prix_achat) {
+            formData.append("cost", String(productCsv.prix_achat));
+        }
         formData.append("guest_checkout", "1");
         formData.append("featured", "1");
-        formData.append("url_key", productCsv.sku);
+        if (productCsv.sku) {
+            formData.append("url_key", productCsv.sku);
+            formData.append("sku", productCsv.sku);
+            formData.append("meta_title", productCsv.sku);
+        }
         formData.append("status", "1");
         formData.append("visible_individually", "1");
         formData.append("weight", "10");
@@ -70,11 +82,13 @@ export class ProductImport {
         // formData.append("locale", "all"); // lasa tsy miditra n name sy description ra misy anty
         formData.append("manage_stock", "1");
         formData.append("description", "desc");
-        formData.append("sku", productCsv.sku);
-        formData.append("meta_title", productCsv.sku);
-        formData.append("inventories[1]", String(productCsv.stock_initial));
+        if (productCsv.stock_initial) {
+            formData.append("inventories[1]", String(productCsv.stock_initial));
+        }
 
-        formData.append("categories[]", curCategories.toString());
+        if (curCategories) {
+            formData.append("categories[]", curCategories.toString());
+        }
 
         let authHeader = getAuthAdminHeader();
         await fetch(`${API_URL_ADMIN}/catalog/products/${prod?.id}`, {

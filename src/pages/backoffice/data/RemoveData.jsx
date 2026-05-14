@@ -11,6 +11,7 @@ const RemoveData = () => {
             setGlobalLoading(true);
 
             const dr = new DataRemove();
+            dr.setNotify(notify);
 
             await dr.remove();
 
