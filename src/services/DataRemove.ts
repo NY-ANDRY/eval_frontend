@@ -1,5 +1,5 @@
-import { getAuthAdminHeader } from "../hooks/useHttpRequest.js";
-import { API_URL_ADMIN, API_URL_CLIENT } from "../lib/const.js";
+import { getAuthAdminHeader, getAuthClientHeader } from "../hooks/useHttpRequest.js";
+import { API_URL_ADMIN, API_URL_CLIENT, HOST_URL } from "../lib/const.js";
 import type { Category, Customer, Product } from "./types.js";
 
 export class DataRemove {
@@ -139,17 +139,26 @@ export class DataRemove {
         await this.removeProducts();
         await this.removeCategories();
 
-        await this.removeFromApi();
+        // await this.removeFromNodeApi();
+        await this.removeFromLaravelApi();
 
         await this.removeCustomers();
     }
 
-    async removeFromApi() {
-        this.notify(`suppression depuis api en cours`);
+    async removeFromLaravelApi() {
+        this.notify(`suppression depuis laravel api en cours`);
+        await fetch(`${HOST_URL}/adapt/reset_data`, {
+            method: "POST"
+        });
+        this.notify(`suppression depuis laravel api terminer`);
+    }
+
+    async removeFromNodeApi() {
+        this.notify(`suppression depuis node api en cours`);
         await fetch(`http://127.0.0.1:3008/reset_data`, {
             method: "POST"
         });
-        this.notify(`suppression depuis api terminer`);
+        this.notify(`suppression depuis node api terminer`);
     }
 
     async removeProducts() {
@@ -230,7 +239,28 @@ export class DataRemove {
             })
         });
 
+        this.addGuestBro();
+
         this.notify(`clients [${idsCustomers}] supprimer`);
+    }
+
+    async addGuestBro() {
+        this.notify(`add guest bro`);
+
+        await fetch(`${API_URL_CLIENT}/customer/register`, {
+            method: "POST",
+            headers: getAuthClientHeader(),
+            body: JSON.stringify({
+                first_name: "abc",
+                last_name: "abc",
+                email: "abc@gmail.com",
+                password: "abcabcabc",
+                password_confirmation: "abcabcabc",
+            })
+        });
+
+        this.notify(`guest bro added`);
+
     }
 
     getAllCutomersIds(): string[] {

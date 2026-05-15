@@ -121,6 +121,7 @@ export class DataImport {
             if (typeof order.achat === "string") {
                 order.achat = this.makeOrderItem(order.achat);
                 // order.achat = this.makeOrderItemIteration(order.achat);
+                // order.achat = this.makeOrderItemToJson(order.achat);
             }
         });
     }
@@ -212,6 +213,55 @@ export class DataImport {
         }
 
         return result;
+    }
+
+
+    // stringOrderItem: {["sk-l";1],["sk-m";2]}
+    makeOrderItemToJson(stringOrderItem: string): OrderItemCsv[] {
+        const result: OrderItemCsv[] = [];
+
+        let newStr = stringOrderItem;
+        if (newStr.startsWith("{") && newStr.endsWith("}")) {
+            newStr = newStr.substring(1, newStr.length - 1);
+        }
+        newStr = newStr.replaceAll(";", ":");
+        newStr = newStr.replaceAll("[", "{");
+        newStr = newStr.replaceAll("]", "}");
+
+        let jsonValue = JSON.parse(`[${newStr}]`);
+        console.log(jsonValue);
+
+
+        jsonValue.forEach((el: any) => {
+            const keys = Object.keys(el);   // "sk-l"
+            if (keys.length <= 0) {
+                return;
+            }
+            const key = keys[0];
+            const value = el[key ?? ""];            // 1
+
+            result.push({
+                sku: key ?? "",
+                qtt: value ?? 0
+            });
+        });
+
+        console.log(result);
+        
+
+        return result;
+    }
+
+    getProductBySku(sku: string): Product | null {
+
+        for (let i = 0; i < this.products.length; i++) {
+            const element = this.products[i];
+            if (element?.sku == sku) {
+                return element;
+            }
+        }
+
+        return null;
     }
 
     logState() {

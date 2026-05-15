@@ -61,7 +61,7 @@ export interface Customer {
 
 export interface LoginStorage {
     email: string,
-    token: string,
+    tokenBearer: string,
 }
 
 export interface ImageZip {

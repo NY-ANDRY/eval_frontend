@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAuthHeaders, useAdminFetch } from "../../../hooks/useHttpRequest";
 import { API_URL_ADMIN } from "../../../lib/const";
+import { getAuthAdminHeader } from "../../../hooks/useHttpRequest.js";
 
 const Order = () => {
     const { data: ordersData, refetch: refechOrderData } = useAdminFetch(`${API_URL_ADMIN}/sales/orders`);
@@ -54,7 +55,7 @@ const OrderRow = ({ order, onUpdate }) => {
         await fetch(`${API_URL_ADMIN}/sales/shipments/${order.id}`,
             {
                 method: "POST",
-                headers: getAuthHeaders("admin"),
+                headers: getAuthAdminHeader(),
                 body: JSON.stringify(shipmentBody)
             }
         );

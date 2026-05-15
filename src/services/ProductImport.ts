@@ -28,7 +28,7 @@ export class ProductImport {
 
     async importProduct(productCsv: ProductCsv | undefined): Promise<void> {
         if (!productCsv) return;
-        let prod: Product | null = this.getProductBySku(productCsv.sku);
+        let prod: Product | null = this.dataImport.getProductBySku(productCsv.sku);
 
         if (prod == null) {
             const p1 = await fetch(`${API_URL_ADMIN}/catalog/products`, {
@@ -102,17 +102,6 @@ export class ProductImport {
         this.notify("produit " + productCsv.sku + " importer");
     }
 
-    getProductBySku(sku: string): Product | null {
-
-        for (let i = 0; i < this.dataImport.products.length; i++) {
-            const element = this.dataImport.products[i];
-            if (element?.sku == sku) {
-                return element;
-            }
-        }
-
-        return null;
-    }
 
     async getOrCreateCategoriesIdsOf(productCsv: ProductCsv): Promise<number[]> {
         const result: number[] = [];

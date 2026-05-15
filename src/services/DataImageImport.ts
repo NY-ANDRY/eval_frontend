@@ -111,7 +111,6 @@ export class DataImageImport {
     async import() {
         await this.init();
 
-
         this.notify(`import d'image`);
 
         for (let i = 0; i < this.products.length; i++) {
@@ -198,7 +197,6 @@ export class DataImageImport {
         }
 
         console.log(product);
-
 
         const formData = new FormData();
 
