@@ -239,13 +239,34 @@ export class DataRemove {
             })
         });
 
-        this.addGuestBro();
+        try {
+            this.addGuestBro();
+            this.addAbcDefault();
+        } catch (error) {
+        }
 
         this.notify(`clients [${idsCustomers}] supprimer`);
     }
 
     async addGuestBro() {
         this.notify(`add guest bro`);
+
+        await fetch(`${API_URL_CLIENT}/customer/register`, {
+            method: "POST",
+            headers: getAuthClientHeader(),
+            body: JSON.stringify({
+                first_name: "bro",
+                last_name: "bro",
+                email: "bro@gmail.com",
+                password: "trust_me",
+                password_confirmation: "trust_me",
+            })
+        });
+
+        this.notify(`guest bro added`);
+    }
+    async addAbcDefault() {
+        this.notify(`add abc default`);
 
         await fetch(`${API_URL_CLIENT}/customer/register`, {
             method: "POST",
@@ -259,8 +280,7 @@ export class DataRemove {
             })
         });
 
-        this.notify(`guest bro added`);
-
+        this.notify(`guest abc added`);
     }
 
     getAllCutomersIds(): string[] {

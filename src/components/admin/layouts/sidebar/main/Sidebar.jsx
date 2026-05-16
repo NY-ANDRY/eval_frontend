@@ -16,6 +16,11 @@ const navs = [
         label: "order",
         url: "/backoffice/order",
         icon: <ScrollIcon />
+      },
+      {
+        label: "stock",
+        url: "/backoffice/stocks",
+        icon: <ScrollIcon />
       }
     ]
   },
