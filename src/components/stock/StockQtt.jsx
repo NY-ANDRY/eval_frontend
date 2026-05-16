@@ -11,7 +11,7 @@ const StockQtt = ({ productId }) => {
         }
         setIsProcessing(true);
         const bro = new GuestBro();
-        const broQTT = await bro.getStock(productId);
+        const broQTT = await bro.getAvailableStock(productId);
         setStockQtt(broQTT);
         setIsProcessing(false);
     }
@@ -24,9 +24,9 @@ const StockQtt = ({ productId }) => {
     return (
         <>
             {isProcessing ?
-            <>
-                <span class="loading loading-ring loading-xs"></span>
-            </>
+                <>
+                    <span className="loading loading-ring loading-xs"></span>
+                </>
                 :
                 <span>{stockQtt}</span>
             }

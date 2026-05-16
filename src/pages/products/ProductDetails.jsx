@@ -37,7 +37,7 @@ const ProductDetails = ({ }) => {
     }
 
     return (
-        <div className="flex justify-between p-2">
+        <div className="flex gap-8 p-2">
             <div className="flex gap-2">
                 <div className="flex flex-col gap-2">
                     {productData?.data?.images.map((image, i) => (
@@ -49,6 +49,7 @@ const ProductDetails = ({ }) => {
                 </div>
             </div>
             <div className="flex flex-col">
+                <div className="flex mb-2 text-xl">{productData?.data?.name}</div>
                 <form onSubmit={handleSubmit} className="flex items-center gap-2">
                     <PlusIcon onClick={() => { setQtt((prev) => Number(prev) - 1) }} />
                     <input onChange={(e) => setQtt(e.target.value)} value={qtt} type="number" className="input" />

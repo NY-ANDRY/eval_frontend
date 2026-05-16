@@ -69,3 +69,46 @@ export interface ImageZip {
     url: string;
     blob: Blob;
 }
+
+export interface Order {
+    id: string;
+    customer_email: string;
+    discount_amount: string;
+    discount_invoiced: string;
+    discount_percent: string;
+    discount_refunded: string;
+    grand_total: string;
+    grand_total_invoiced: string;
+    grand_total_refunded: string;
+    invoices: any[];
+    items: OrderItem[];
+    shipments: any[];
+    status: string;
+    status_label: string;
+    sub_total: string;
+    total_item_count: number;
+    total_qty_ordered: number;
+    updated_at: string;
+}
+
+export interface OrderItem {
+    id: string;
+    product_id: string;
+
+    grant_total: number;
+
+    qty_canceled: number;
+    qty_invoiced: number;
+    qty_ordered: number;
+    qty_refunded: number;
+    qty_shipped: number;
+    sku: string;
+    total: string;
+    total_invoiced: string;
+    total_weight: string;
+
+    base_grant_total: string;
+    base_price: string;
+    base_total: string;
+    base_total_invoiced: string;
+}

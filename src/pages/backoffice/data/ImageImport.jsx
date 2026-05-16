@@ -74,24 +74,27 @@ const ImageImport = () => {
 
     return (
         <div className="flex gap-4 p-2">
-            <div className="flex flex-col gap-2 w-3xl">
-                <input
-                    type="file"
-                    accept=".zip"
-                    onChange={handleZip}
-                    className="file-input file-input-sm"
-                />
+            <div className="flex flex-col gap-1.5 capitalize">
+                <div className="flex text-sm text-neutral-500">product image</div>
+                <div className="flex flex-col gap-2 w-3xl">
+                    <input
+                        type="file"
+                        accept=".zip"
+                        onChange={handleZip}
+                        className="file-input file-input-sm"
+                    />
 
-                {
-                    images.length > 0 &&
-                    <button
-                        onClick={handleImport}
-                        disabled={loading}
-                        className="btn btn-sm btn-primary w-xs"
-                    >
-                        import
-                    </button>
-                }
+                    {
+                        images.length > 0 &&
+                        <button
+                            onClick={handleImport}
+                            disabled={loading}
+                            className="btn btn-sm btn-primary w-xs"
+                        >
+                            import
+                        </button>
+                    }
+                </div>
             </div>
 
             <div className="flex flex-col flex-wrap gap-5">

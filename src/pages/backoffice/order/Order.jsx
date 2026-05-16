@@ -4,7 +4,7 @@ import { API_URL_ADMIN } from "../../../lib/const";
 import { getAuthAdminHeader } from "../../../hooks/useHttpRequest.js";
 
 const Order = () => {
-    const { data: ordersData, refetch: refechOrderData } = useAdminFetch(`${API_URL_ADMIN}/sales/orders`);
+    const { data: ordersData, refetch: refechOrderData } = useAdminFetch(`${API_URL_ADMIN}/sales/orders?limit=1000`);
 
     return (
         <div className="fle flex-col">
