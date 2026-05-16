@@ -21,9 +21,7 @@ export class GuestBro {
         }
     }
 
-    async getStock(
-        productId: string,
-    ) {
+    async getStock(productId: string) {
         await this.init();
         await this.deleteFromBroCart(productId);
 
@@ -78,7 +76,7 @@ export class GuestBro {
 
     async deleteFromBroCart(productId: string): Promise<void> {
         let broCart = await this.getBroCart();
-        let cartId = this.getItemId(broCart, productId);
+        let cartId = this.getCartItemId(broCart, productId);
 
         if (cartId == undefined) {
             return;
@@ -112,7 +110,7 @@ export class GuestBro {
         return resData.data;
     }
 
-    getItemId(cartResponse: any, productId: string) {
+    getCartItemId(cartResponse: any, productId: string) {
         const items = cartResponse?.items;
         if (!items) {
             return undefined;
