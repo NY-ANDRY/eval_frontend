@@ -56,6 +56,10 @@ export class ProductImport {
         if (productCsv.prix_promo) {
             formData.append("special_price", String(productCsv.prix_promo));
         }
+        // prix promo fona n miasa ra null tony
+        formData.append("special_price_from", "2000-01-01");
+        formData.append("special_price_to", "2000-01-01");
+        //
         formData.append("meta_keywords", "meta keyword");
         formData.append("brand", "17");
         if (productCsv.prix_vente) {

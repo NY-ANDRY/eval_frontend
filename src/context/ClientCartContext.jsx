@@ -27,10 +27,12 @@ export const ClientCartProvider = ({ children }) => {
 
     refetchCartItem();
 
+    const resData = await res.json();
+
     if (res.status == 200) {
-      notify('produit ajouter au panier')
+      notify(`${resData.message}`)
     } else {
-      notify('produit non ajouter au panier')
+      notify(`${resData.message}`)
     }
   }
 

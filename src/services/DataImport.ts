@@ -19,6 +19,10 @@ export class DataImport {
     clientImport: ClientImport;
     orderImport: OrderImport;
 
+    importProduct: boolean = true;
+    importClient: boolean = true;
+    importOrder: boolean = true;
+
     fetchPageLimit: number = 1000;
 
     constructor(productsData: any, clientsData: any, ordersData: any) {
@@ -90,14 +94,29 @@ export class DataImport {
     async import() {
         await this.init();
 
-        if (this.productsCsv) {
-            await this.productImport.import();
+        if (this.productsCsv && this.importProduct) {
+            try {
+                await this.productImport.import();
+            } catch (error) {
+                this.notify(`erreur import produit`);
+                console.log(error);
+            }
         }
-        if (this.clientImport) {
-            await this.clientImport.import();
+        if (this.clientImport && this.importClient) {
+            try {
+                await this.clientImport.import();
+            } catch (error) {
+                this.notify(`erreur import client`);
+                console.log(error);
+            }
         }
-        if (this.orderImport) {
-            await this.orderImport.import();
+        if (this.orderImport && this.importOrder) {
+            try {
+                await this.orderImport.import();
+            } catch (error) {
+                this.notify(`erreur import orders`);
+                console.log(error);
+            }
         }
 
     }
@@ -107,23 +126,137 @@ export class DataImport {
     }
 
     setProducts(productsData: any) {
-        this.productsCsv = productsData.data;
+        let curProducts = productsData.data;
+
+        if (curProducts.length <= 0) {
+            throw new Error(`aucun produit trouver`);
+        }
+
+        const expectedKeys = [
+            "type",
+            "sku",
+            "name",
+            "Categorie",
+            "prix_vente",
+            "prix_achat",
+            "prix_promo",
+            "stock_initial"
+        ];
+
+        this.checkKeys(expectedKeys, curProducts[0], "products");
+
+        const toBePositif = [
+            "prix_vente",
+            "prix_achat",
+            "prix_promo",
+            "stock_initial"
+        ];
+
+        this.checkPositifValue(curProducts, toBePositif);
+
+        this.productsCsv = curProducts;
     }
 
     setClients(clientsData: any) {
-        this.clientsCsv = clientsData.data;
+        let curClients = clientsData.data;
+
+        if (curClients.length <= 0) {
+            throw new Error(`aucun produit trouver`);
+        }
+
+        const expectedKeys = [
+            "nom",
+            "prenom",
+            "email",
+            "pwd"
+        ];
+
+        this.checkKeys(expectedKeys, curClients[0], "client");
+
+        this.clientsCsv = curClients;
     }
 
     setOrders(ordersData: any) {
-        this.ordersCsv = ordersData.data;
+        let curOrders = ordersData.data;
+
+        if (curOrders.length <= 0) {
+            throw new Error(`aucun produit trouver`);
+        }
+
+        const expectedKeys = [
+            "date",
+            "heure",
+            "client",
+            "achat",
+            "status"
+        ];
+
+        this.checkKeys(expectedKeys, curOrders[0], "orders");
+
+        this.ordersCsv = curOrders;
 
         this.ordersCsv?.forEach(order => {
+
+            this.checkDateFormat(order.date);
+
             if (typeof order.achat === "string") {
                 order.achat = this.makeOrderItem(order.achat);
                 // order.achat = this.makeOrderItemIteration(order.achat);
                 // order.achat = this.makeOrderItemToJson(order.achat);
             }
         });
+    }
+
+    checkPositifValue(object: any[], keys: string[]) {
+        object.forEach((obj, obj_index) => {
+            for (let i = 0; i < keys.length; i++) {
+                const key = keys[i];
+                if (!key) {
+                    throw new Error(`cle vide: ${key}`);
+                }
+                const val = Number(obj[key]);
+                if (val < 0) {
+                    throw new Error(`${key} doit etre toujour positif: ${val} => index: ${obj_index}`);
+                    
+                }
+            }
+        })
+    }
+
+    checkDateFormat(date: string) {
+        const parts = date.split("/");
+
+        if (
+            parts.length !== 3 ||
+            parts[0]?.length !== 2 ||
+            parts[1]?.length !== 2 ||
+            parts[2]?.length !== 4
+        ) {
+            throw new Error(`format de date invalide: DD/MM/YYYY -> ${date}`);
+        }
+
+        const day = Number(parts[0]);
+        const month = Number(parts[1]);
+        const year = Number(parts[2]);
+
+        if (
+            isNaN(day) || isNaN(month) || isNaN(year) ||
+            day < 1 || day > 31 || month < 1 || month > 12
+        ) {
+            throw new Error(`format de date invalide: DD/MM/YYYY -> ${date}`);
+        }
+    }
+
+    checkKeys(expectedKeys: string[], object: any, dataName: string = "data") {
+        const keys = Object.keys(object);
+
+        for (let i = 0; i < expectedKeys.length; i++) {
+            if (keys[i] !== expectedKeys[i]) {
+                throw new Error(
+                    `${dataName}: colonne ${i} non valide: ${expectedKeys[i]} -> ${keys[i]}`
+                );
+            }
+        }
     }
 
     // stringOrderItem: {["sk-l";1],["sk-m";2]}
@@ -247,7 +380,7 @@ export class DataImport {
         });
 
         console.log(result);
-        
+
 
         return result;
     }

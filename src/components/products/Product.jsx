@@ -58,19 +58,34 @@ const ViewProducts = ({ product }) => {
             <div className="flex items-center font-light text-neutral-800 text-sm">
                 {product.name}
             </div>
-            <div className="flex items-center justify-between gap-0">
-                <div className="flex-1 flex items-center justify-between gap-2">
-                    <button onClick={() => { setQtt((prev) => Number(prev) - 1) }} className="flex items-center justify-center hover:bg-neutral-100 active:bg-neutral-200 rounded px-2 py-1 cursor-pointer">
-                        <MinusIcon className="w-5" />
-                    </button>
-                    <input onChange={(e) => setQtt(e.target.value)} value={qtt} type="number" className="w-20 border-b border-neutral-400 text-center rounded-none! focus:outline-0" />
-                    <button onClick={() => { setQtt((prev) => Number(prev) + 1) }} className="flex items-center justify-center hover:bg-neutral-100 active:bg-neutral-200 rounded px-2 py-1 cursor-pointer">
-                        <PlusIcon className="w-5" />
-                    </button>
-                    <button onClick={handleAddToCart} className="btn flex items-center justify-center w-8 h-8 bg-neutral-800 rounded text-white">
-                        <ShoppingCart className="w-5 h-5" />
-                    </button>
+
+            <div className="flex flex-col">
+                <div className="flex items-center justify-between">
+                    {product?.special_price ?
+                        <>
+                            <div className="flex">{product?.formatted_special_price}</div>
+                            <div className="flex text-neutral-300">{product?.formatted_regular_price}</div>
+                        </>
+                        :
+                        <>
+                            <div className="flex">{product?.formatted_price}</div>
+                        </>
+                    }
+
                 </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+                <button onClick={() => { setQtt((prev) => Number(prev) - 1) }} className="flex items-center justify-center hover:bg-neutral-100 active:bg-neutral-200 rounded px-2 py-1 cursor-pointer">
+                    <MinusIcon className="w-5" />
+                </button>
+                <input onChange={(e) => setQtt(e.target.value)} value={qtt} type="number" className="w-20 border-b border-neutral-400 text-center rounded-none! focus:outline-0" />
+                <button onClick={() => { setQtt((prev) => Number(prev) + 1) }} className="flex items-center justify-center hover:bg-neutral-100 active:bg-neutral-200 rounded px-2 py-1 cursor-pointer">
+                    <PlusIcon className="w-5" />
+                </button>
+                <button onClick={handleAddToCart} className="btn flex items-center justify-center w-8 h-8 bg-neutral-800 rounded text-white">
+                    <ShoppingCart className="w-5 h-5" />
+                </button>
             </div>
             <Link to={`/products/${product.id}`} className="btn btn-primary btn-sm mt-0">voir</Link>
         </div>

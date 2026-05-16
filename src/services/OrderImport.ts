@@ -1,4 +1,3 @@
-import { data } from "react-router-dom";
 import { getAuthAdminHeader, getAuthClientHeader } from "../hooks/useHttpRequest.js";
 import { API_URL_ADMIN, API_URL_CLIENT, HOST_URL } from "../lib/const.js";
 import type { DataImport } from "./DataImport.js";
@@ -25,7 +24,13 @@ export class OrderImport {
 
         for (let i = 0; i < ordersCsv.length; i++) {
             const orderCsv = ordersCsv[i];
-            await this.importOrder(orderCsv);
+            try {
+                this.notify(`import achat de ${orderCsv?.client} commencer`);
+                await this.importOrder(orderCsv);
+                this.notify(`import achat de ${orderCsv?.client} terminer`);
+            } catch (error) {
+                this.notify(`import achat de ${orderCsv?.client} terminer avec erreur`);
+            }
         }
 
         this.notify(`import de ${ordersCsv.length} orders terminer`);

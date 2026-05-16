@@ -1,6 +1,6 @@
 import { useState } from "react";
-import CsvReader from "../../../components/reader/CsvReader";
-import { useNotification } from "../../../context/NotificationContext";
+import CsvReader from "../../../components/reader/CsvReader.jsx";
+import { useNotification } from "../../../context/NotificationContext.jsx";
 import { DataImport } from "../../../services/DataImport.js";
 
 const Import = () => {
@@ -12,9 +12,13 @@ const Import = () => {
     const [clientData, setClientData] = useState(null);
     const [orderData, setOrderData] = useState(null);
 
+    const [importProducts, setImportProduct] = useState(true);
+    const [importClients, setImportClients] = useState(true);
+    const [importOrders, setImportOrder] = useState(true);
+
     const handleTest = async () => {
         if (!productData || !clientData || !orderData) {
-            notify("les 3 fichier sont requis")
+            notify("les 3 fichier sont requis", 3, "yellow")
             return;
         }
 
@@ -25,9 +29,20 @@ const Import = () => {
             const di = new DataImport(productData, clientData, orderData);
             di.setNotify(notify);
 
+            if (!importProducts) {
+                di.importProduct = false;
+            }
+            if (!importClients) {
+                di.importClient = false;
+            }
+            if (!importOrders) {
+                di.importOrder = false;
+            }
+
             await di.import();
 
         } catch (error) {
+            notify(error.message, 3, "red")
             console.log(error);
         } finally {
             setGlobalLoading(false);
@@ -37,17 +52,27 @@ const Import = () => {
 
     return (
         <div className="flex flex-col gap-4 p-2">
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1.5 relative">
                 <label htmlFor="">products</label>
-                <CsvReader onRead={setProductData} />
+                <div className="flex gap-4 relative">
+                    <input checked={importProducts} onChange={(e) => setImportProduct(e.target.checked)} type="checkbox" className="checkbox relative top-1" />
+                    <CsvReader onRead={setProductData} />
+                </div>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1.5 relative">
                 <label htmlFor="">clients</label>
-                <CsvReader onRead={setClientData} />
+                <div className="flex gap-4 relative">
+                    <input checked={importClients} onChange={(e) => setImportClients(e.target.checked)} type="checkbox" className="checkbox relative top-1" />
+                    <CsvReader onRead={setClientData} />
+                </div>
+
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1.5 relative">
                 <label htmlFor="">orders</label>
-                <CsvReader onRead={setOrderData} />
+                <div className="flex gap-4 relative">
+                    <input checked={importOrders} onChange={(e) => setImportOrder(e.target.checked)} type="checkbox" className="checkbox relative top-1" />
+                    <CsvReader onRead={setOrderData} />
+                </div>
             </div>
 
             <button disabled={loading} onClick={handleTest} className="btn btn-neutral btn-sm w-xs">import</button>
