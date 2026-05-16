@@ -4,8 +4,8 @@ import { API_URL_CLIENT, HOST_URL } from "../lib/const.js";
 
 export class GuestBro {
 
-    Btoken_client: string = "";
-    BtokenStorageName = "bagisto_guest_bro_token";
+    static Btoken_client: string = "";
+    BtokenStorageName = "bagisto_guest_bro_token"; // tsy ovaina -> misoratra anaty fonction mamafa clients
 
     static broCart: any = {};
 
@@ -13,11 +13,13 @@ export class GuestBro {
     }
 
     async init() {
-        let localStorageToken = localStorage.getItem(this.BtokenStorageName);
-        if (localStorageToken) {
-            this.Btoken_client = `Bearer ${localStorageToken}`;
-        } else {
-            this.connectBro();
+        if (GuestBro.Btoken_client == "") {
+            let localStorageToken = localStorage.getItem(this.BtokenStorageName);
+            if (localStorageToken != null) {
+                GuestBro.Btoken_client = `Bearer ${localStorageToken}`;
+            } else {
+                this.connectBro();
+            }
         }
     }
 
@@ -36,7 +38,7 @@ export class GuestBro {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: this.Btoken_client,
+                        Authorization: GuestBro.Btoken_client,
                     },
                     body: JSON.stringify({
                         "product_id": productId,
@@ -86,7 +88,7 @@ export class GuestBro {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: this.Btoken_client,
+                Authorization: GuestBro.Btoken_client,
             },
             body: JSON.stringify({})
         });
@@ -97,7 +99,7 @@ export class GuestBro {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: this.Btoken_client,
+                Authorization: GuestBro.Btoken_client,
             }
         });
 
@@ -154,7 +156,7 @@ export class GuestBro {
 
         const resData = await res.json();
         let Btoken = `Bearer ${resData.token}`;
-        this.Btoken_client = Btoken;
+        GuestBro.Btoken_client = Btoken;
         localStorage.setItem(this.BtokenStorageName, resData.token);
     }
 
@@ -179,7 +181,7 @@ export class GuestBro {
         });
         const resData = await res.json();
         let Btoken = `Bearer ${resData.token}`;
-        this.Btoken_client = Btoken;
+        GuestBro.Btoken_client = Btoken;
         localStorage.setItem(this.BtokenStorageName, resData.token);
     }
 

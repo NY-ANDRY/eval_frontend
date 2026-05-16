@@ -238,6 +238,7 @@ export class DataRemove {
                 indices: idsCustomers
             })
         });
+        localStorage.removeItem("bagisto_guest_bro_token");
 
         try {
             this.addGuestBro();
@@ -262,6 +263,19 @@ export class DataRemove {
                 password_confirmation: "trust_me",
             })
         });
+
+        const res = await fetch(`${API_URL_CLIENT}/customer/login`, {
+            method: "POST",
+            headers: getAuthClientHeader(),
+            body: JSON.stringify({
+                email: "bro@gmail.com",
+                password: "trust_me",
+                device_name: "web"
+            })
+        });
+
+        const resData = await res.json();
+        localStorage.setItem("bagisto_guest_bro_token", resData.token);
 
         this.notify(`guest bro added`);
     }
