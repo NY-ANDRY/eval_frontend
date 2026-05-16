@@ -200,9 +200,9 @@ export class DataImport {
             this.checkDateFormat(order.date);
 
             if (typeof order.achat === "string") {
-                order.achat = this.makeOrderItem(order.achat);
+                // order.achat = this.makeOrderItem(order.achat);
                 // order.achat = this.makeOrderItemIteration(order.achat);
-                // order.achat = this.makeOrderItemToJson(order.achat);
+                order.achat = this.makeOrderItemToJson(order.achat);
             }
         });
     }
@@ -366,12 +366,12 @@ export class DataImport {
 
 
         jsonValue.forEach((el: any) => {
-            const keys = Object.keys(el);   // "sk-l"
+            const keys = Object.keys(el);
             if (keys.length <= 0) {
                 return;
             }
             const key = keys[0];
-            const value = el[key ?? ""];            // 1
+            const value = el[key ?? ""];
 
             result.push({
                 sku: key ?? "",

@@ -1,7 +1,7 @@
 import SidebarMainButton from "./SidebarMainButton";
 import SidebarFooterButton from "./SidebarFooterButton";
 import SidebarButton from "./SidebarButton";
-import { GaugeIcon, FileTypeCorner, FileImageIcon, DatabaseIcon, ScrollIcon } from "lucide-react";
+import { GaugeIcon, FileTypeCorner, FileImageIcon, DatabaseIcon, ScrollIcon, BoxIcon } from "lucide-react";
 
 const navs = [
   {
@@ -20,7 +20,7 @@ const navs = [
       {
         label: "stock",
         url: "/backoffice/stocks",
-        icon: <ScrollIcon />
+        icon: <BoxIcon />
       }
     ]
   },

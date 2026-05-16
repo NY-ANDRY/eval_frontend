@@ -5,7 +5,7 @@ import { API_URL_CLIENT, HOST_URL } from "../lib/const.js";
 export class GuestBro {
 
     static Btoken_client: string = "";
-    BtokenStorageName = "bagisto_guest_bro_token"; // tsy ovaina -> misoratra anaty fonction mamafa clients
+    BtokenStorageName = "bagisto_guest_bro_token"; // tsy ovaina -> misoratra anaty fonction mamafa clients...
 
     static broCart: any = {};
 

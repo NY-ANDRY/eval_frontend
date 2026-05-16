@@ -17,7 +17,7 @@ import DataImport from "../pages/backoffice/data/Import";
 import ImageImport from "../pages/backoffice/data/ImageImport.jsx";
 import Wishlist from "../components/cart/Wishlist.jsx";
 import ProductStock from "../pages/backoffice/stock/ProductStock.jsx";
-import Stocks from "../pages/backoffice/stock/Stocks.jsx";
+import ModifStocks from "../pages/backoffice/stock/ModifStocks.jsx";
 
 const routes = [
   {
@@ -61,7 +61,7 @@ const routes = [
           },
           {
             path: "stocks",
-            element: <Stocks />
+            element: <ModifStocks />
           },
           {
             path: "*",

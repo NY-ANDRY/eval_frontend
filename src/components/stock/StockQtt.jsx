@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { GuestBro } from "../../services/GuestBro.js";
 
-
 const StockQtt = ({ productId }) => {
     const [stockQtt, setStockQtt] = useState(0);
     const [isProcessing, setIsProcessing] = useState(false);

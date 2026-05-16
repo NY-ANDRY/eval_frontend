@@ -7,6 +7,7 @@ const ProductStock = () => {
 
     return (
         <div className="flex">
+            hello my friend
         </div>
     )
 }

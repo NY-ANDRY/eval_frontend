@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { img } from "motion/react-client";
 import { useClientCart } from "../../context/ClientCartContext";
 import { Trash2Icon, PlusIcon, MinusIcon, ShoppingCart } from "lucide-react";
+import StockQtt from "../../components/stock/StockQtt.jsx";
 
 const ProductDetails = ({ }) => {
     const { id } = useParams();
@@ -52,8 +53,12 @@ const ProductDetails = ({ }) => {
                     <PlusIcon onClick={() => { setQtt((prev) => Number(prev) - 1) }} />
                     <input onChange={(e) => setQtt(e.target.value)} value={qtt} type="number" className="input" />
                     <PlusIcon onClick={() => { setQtt((prev) => Number(prev) + 1) }} />
-                        <button type="submit" className="btn btn-sm btn-primary">valider</button>
+                    <button type="submit" className="btn btn-sm btn-primary">valider</button>
                 </form>
+                <div className="flex items-center">
+                    <span>stock: </span>
+                    <StockQtt productId={id} />
+                </div>
             </div>
         </div>
     )

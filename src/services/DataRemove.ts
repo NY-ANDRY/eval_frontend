@@ -1,5 +1,6 @@
 import { getAuthAdminHeader, getAuthClientHeader } from "../hooks/useHttpRequest.js";
 import { API_URL_ADMIN, API_URL_CLIENT, HOST_URL } from "../lib/const.js";
+import { GuestBro } from "./GuestBro.js";
 import type { Category, Customer, Product } from "./types.js";
 
 export class DataRemove {
@@ -276,6 +277,7 @@ export class DataRemove {
 
         const resData = await res.json();
         localStorage.setItem("bagisto_guest_bro_token", resData.token);
+        GuestBro.Btoken_client = `Bearer ${resData.token}`;
 
         this.notify(`guest bro added`);
     }
