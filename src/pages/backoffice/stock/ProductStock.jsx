@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { useAdminFetch, useFetch } from "../../../hooks/useHttpRequest.js";
+import { getAuthAdminHeader, useAdminFetch, useFetch } from "../../../hooks/useHttpRequest.js";
 import { API_URL_ADMIN } from "../../../lib/const.js";
 import { useParams } from "react-router-dom";
 import { GuestBro } from "../../../services/GuestBro.js";
 import { span } from "motion/react-client";
+import { useNotification } from "../../../context/NotificationContext.jsx";
 
 const ProductStock = () => {
+    const { notify } = useNotification();
     const { id: productId } = useParams();
     const { data: productData } = useAdminFetch(`${API_URL_ADMIN}/catalog/products/${productId}`);
     const product = productData?.data;
@@ -54,6 +56,36 @@ const ProductStock = () => {
 
     const stockReel = stockQtt + stockDetails?.waitingQtt;
 
+    //
+    const [addStock, setAddStock] = useState(0);
+
+    const handleUpdateStock = async () => {
+        let newQttt = Number(addStock) + Number(stockReel);
+        const res = await fetch(`${API_URL_ADMIN}/catalog/products/${product.id}/inventories`, {
+            method: "POST",
+            headers: getAuthAdminHeader(),
+            body: JSON.stringify({
+                "inventories": {
+                    "1": newQttt
+                }
+            })
+        });
+        const resData = await res.json();
+        getAvailableQtt();
+
+        if (resData.message) {
+            notify(resData.message, 3, "green");
+        } else {
+            notify(`stock mis a jour`, 3, "green");
+        }
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await handleUpdateStock();
+    }
+    //
+
     return (
         <div className="flex flex-col p-2">
             <div className="flex">{product?.name}</div>
@@ -78,6 +110,11 @@ const ProductStock = () => {
                 stock commandee en attente:
                 {isQttDetailsProcessing ? <span className="loading loading-ring loading-xs"></span> : <div className="span">{stockDetails?.waitingQtt}</div>}
             </div>
+
+            <form onSubmit={(e) => { handleSubmit(e) }} className="flex items-center gap-2">
+                <input onChange={(e) => setAddStock(e.target.value)} value={addStock} type="number" className="input input-sm w-24" />
+                <button type="submit" className="btn btn-sm">ajouter</button>
+            </form>
         </div>
     )
 }

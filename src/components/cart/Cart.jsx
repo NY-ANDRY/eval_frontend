@@ -1,4 +1,3 @@
-import { tr } from "motion/react-client";
 import { Trash2Icon, PlusIcon, MinusIcon } from "lucide-react";
 import { useClientCart } from "../../context/ClientCartContext";
 import { useEffect, useState } from "react";

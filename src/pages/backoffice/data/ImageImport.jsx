@@ -9,10 +9,14 @@ const ImageImport = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const handleZip = async (event) => {
+    const handleChange = async (event) => {
         const file = event.target.files[0];
-
         if (!file) return;
+        const extractedImages = await handleZip(file);
+        setImages(extractedImages);
+    }
+
+    const handleZip = async (file) => {
 
         const zip = await JSZip.loadAsync(file);
 
@@ -48,7 +52,7 @@ const ImageImport = () => {
             });
         }
 
-        setImages(extractedImages);
+        return extractedImages;
     };
 
     const handleImport = async () => {
@@ -65,7 +69,7 @@ const ImageImport = () => {
             await ii.import();
 
         } catch (error) {
-
+            notify(error);
         } finally {
             setGlobalLoading(false);
             setLoading(false);
@@ -80,7 +84,7 @@ const ImageImport = () => {
                     <input
                         type="file"
                         accept=".zip"
-                        onChange={handleZip}
+                        onChange={handleChange}
                         className="file-input file-input-sm"
                     />
 

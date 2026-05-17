@@ -7,6 +7,9 @@ const RemoveData = () => {
 
     const handleRemoveData = async () => {
 
+        const confirmDelete = window.confirm("Voulez-vous vraiment supprimer toutes les données ?");
+        if (!confirmDelete) return;
+
         try {
             setGlobalLoading(true);
 

@@ -196,7 +196,7 @@ export class DataImageImport {
             return;
         }
 
-        console.log(product);
+        // console.log(product);
 
         const formData = new FormData();
 
@@ -252,9 +252,9 @@ export class DataImageImport {
             formData.append("images[files][]", curFile);
         }
 
-        for (const pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
-        }
+        // for (const pair of formData.entries()) {
+        //     console.log(pair[0], pair[1]);
+        // }
 
         let authHeader = getAuthAdminHeader();
 

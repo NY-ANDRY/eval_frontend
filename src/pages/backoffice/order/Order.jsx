@@ -9,26 +9,28 @@ const Order = () => {
     const { data: ordersData, refetch: refechOrderData, loading } = useAdminFetch(`${API_URL_ADMIN}/sales/orders?limit=1000`);
 
     return (
-        <div className="flex flex-col">
-            <h1 className="px-4 py-2">orders</h1>
+        <div className="flex flex-col gap-2">
+            <div className="px-4 py-2 font-bold capitalize text-2xl">orders</div>
             {loading && <TableSkeletons />}
-            <table className="table table-sm">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>formatted_grand_total</th>
-                        <th>customer.email</th>
-                        <th>status_label</th>
-                        <th>envoye</th>
-                        <th>paye</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {ordersData?.data?.map((order, i) => (
-                        <OrderRow key={order.id} order={order} onUpdate={refechOrderData} />
-                    ))}
-                </tbody>
-            </table>
+            {!loading &&
+                <table className="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>formatted_grand_total</th>
+                            <th>email</th>
+                            <th>status_label</th>
+                            <th>envoye</th>
+                            <th>paye</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {ordersData?.data?.map((order, i) => (
+                            <OrderRow key={order.id} order={order} onUpdate={refechOrderData} />
+                        ))}
+                    </tbody>
+                </table>
+            }
         </div>
     )
 }

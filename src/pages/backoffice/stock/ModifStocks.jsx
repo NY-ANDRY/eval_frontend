@@ -10,6 +10,7 @@ const ModifStocks = () => {
 
     return (
         <div className="flex flex-col">
+            <div className="px-4 py-2 font-bold capitalize text-2xl">stock</div>
             <table className="table table-sm">
                 <thead>
                     <tr>

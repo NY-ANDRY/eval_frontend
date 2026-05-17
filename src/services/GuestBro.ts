@@ -118,6 +118,7 @@ export class GuestBro {
 
         const resData = await res.json();
 
+        GuestBro.broCart = resData.data;
         return resData.data;
     }
 
