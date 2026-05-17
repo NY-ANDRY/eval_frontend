@@ -13,6 +13,8 @@ export class GuestBro {
     orders: Order[] = [];
     fetchPageLimit: number = 1000;
 
+    isWorking = false;
+
     constructor() {
     }
 
@@ -28,10 +30,12 @@ export class GuestBro {
     }
 
     async getAvailableStock(productId: string) {
+        this.isWorking = true;
         await this.init();
         await this.deleteFromBroCart(productId);
 
-        let result = await this.getQttFromCart(productId);
+        // let result = await this.getQttFromCart(productId);
+        let result = 0;
 
         let again = true;
         while (again) {
@@ -65,6 +69,7 @@ export class GuestBro {
             }
         }
 
+        this.isWorking = false;
         return result;
     }
 
@@ -169,6 +174,7 @@ export class GuestBro {
     }
 
     async getStockDetailsOfProduct(productId: string) {
+        this.isWorking = true;
         await this.resetOrders();
         const result = {
             orderQtt: 0,
@@ -189,12 +195,12 @@ export class GuestBro {
 
             for (let j = 0; j < order.items.length; j++) {
                 const item = order.items[j];
-                
+
                 if (!item) {
                     console.log("continue 2");
                     continue;
                 }
-                
+
                 console.log(`${item.product_id} != ${productId}`);
                 if (item.product_id != productId) {
                     continue;
@@ -220,6 +226,7 @@ export class GuestBro {
             }
         }
 
+        this.isWorking = false;
         return result;
     }
 

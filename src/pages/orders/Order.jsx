@@ -17,7 +17,7 @@ const Order = ({ }) => {
                         <th>statut</th>
                         <th>date</th>
                         <th>total</th>
-                        <th></th>
+                        {/* <th></th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -27,11 +27,11 @@ const Order = ({ }) => {
                             <td>{order.status_label}</td>
                             <td>{formatDateFr(order.updated_at)}</td>
                             <td>{order.formatted_grand_total}</td>
-                            <td>
+                            {/* <td>
                                 <div className="flex w-fit">
                                     <button className="btn btn-xs btn-neutral">voir</button>
                                 </div>
-                            </td>
+                            </td> */}
                         </tr>
                     ))}
                 </tbody>

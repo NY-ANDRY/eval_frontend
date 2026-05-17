@@ -41,7 +41,7 @@ export const NotificationProvider = ({ children }) => {
 
 
   return (
-    <NotificationContext.Provider value={{ notify, setGlobalLoading }}>
+    <NotificationContext.Provider value={{ notify, setGlobalLoading, globalLoading }}>
 
       <div className="fixed top-4 right-6 flex flex-col gap-2 z-50 w-80">
         <div className="flex w-full flex-row-reverse">

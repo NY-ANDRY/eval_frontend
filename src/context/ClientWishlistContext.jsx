@@ -22,7 +22,7 @@ export const ClientWishlistProvider = ({ children }) => {
     const resData = await res.json();
 
     if (res.status == 200) {
-      notify(resData.message);
+      notify(resData.message, 3, "green");
     } else {
       notify('produit non ajouter au wishlist')
     }

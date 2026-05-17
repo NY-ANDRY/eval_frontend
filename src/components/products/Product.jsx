@@ -39,7 +39,7 @@ const ViewProducts = ({ product }) => {
     }, [wishlistItemsData]);
 
     return (
-        <div className="flex flex-col gap-2 p-2 rounded-sm border border-neutral-200 w-62 relative">
+        <div className="flex flex-col gap-2 p-2 rounded-sm border border-neutral-200 w-62 relative h-fit">
 
             <div onClick={handleAddToWishList} className="absolute top-0 right-2 bg-neutral-100 shadow border border-neutral-200 border-t-0 w-8 h-12 flex flex-col items-center justify-center text-netral-800 rounded-b-sm cursor-pointer hover:bg-neutral-200 transition-all active:bg-neutral-300">
                 {inWL ?
@@ -48,7 +48,7 @@ const ViewProducts = ({ product }) => {
                 }
             </div>
 
-            <div className="flex items-center justify-center max-w-full h-62">
+            <div className="flex items-center justify-center max-w-full h-48 bg-neutral-50 rounded-sm">
                 <img
                     src={product?.images?.length > 0 && product?.images[0].medium_image_url}
                     alt={product.meta_description}

@@ -30,7 +30,7 @@ export const ClientCartProvider = ({ children }) => {
     const resData = await res.json();
 
     if (res.status == 200) {
-      notify(`${resData.message}`)
+      notify(`${resData.message}`, 3, "green")
     } else {
       notify(`${resData.message}`)
     }
@@ -45,7 +45,7 @@ export const ClientCartProvider = ({ children }) => {
     await mutateUpdateCart(updateDataa);
 
     refetchCartItem();
-    notify('produit mis a jour', 1);
+    notify('produit mis a jour', 1, "green");
   };
 
   const removeCartItem = async (cartItem) => {

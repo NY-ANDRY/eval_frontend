@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { getAuthHeaders, useAdminFetch } from "../../../hooks/useHttpRequest";
+import { getAuthHeaders, useAdminFetch } from "../../../hooks/useHttpRequest.js";
 import { API_URL_ADMIN } from "../../../lib/const";
 import { getAuthAdminHeader } from "../../../hooks/useHttpRequest.js";
+import { useNotification } from "../../../context/NotificationContext.jsx";
+import { TableSkeletons } from "../../../components/skeleton/Skeletons.jsx";
 
 const Order = () => {
-    const { data: ordersData, refetch: refechOrderData } = useAdminFetch(`${API_URL_ADMIN}/sales/orders?limit=1000`);
+    const { data: ordersData, refetch: refechOrderData, loading } = useAdminFetch(`${API_URL_ADMIN}/sales/orders?limit=1000`);
 
     return (
-        <div className="fle flex-col">
+        <div className="flex flex-col">
             <h1 className="px-4 py-2">orders</h1>
+            {loading && <TableSkeletons />}
             <table className="table table-sm">
                 <thead>
                     <tr>
@@ -16,7 +19,8 @@ const Order = () => {
                         <th>formatted_grand_total</th>
                         <th>customer.email</th>
                         <th>status_label</th>
-                        <th></th>
+                        <th>envoye</th>
+                        <th>paye</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +37,7 @@ export default Order;
 
 const OrderRow = ({ order, onUpdate }) => {
 
+    const { globalLoading, setGlobalLoading } = useNotification();
     const [statut, setStatut] = useState("");
 
     const handleShipment = async () => {
@@ -52,6 +57,7 @@ const OrderRow = ({ order, onUpdate }) => {
                 "items": shipmentItems
             }
         };
+        setGlobalLoading(true);
         await fetch(`${API_URL_ADMIN}/sales/shipments/${order.id}`,
             {
                 method: "POST",
@@ -59,7 +65,7 @@ const OrderRow = ({ order, onUpdate }) => {
                 body: JSON.stringify(shipmentBody)
             }
         );
-
+        setGlobalLoading(false);
         if (onUpdate) { onUpdate(); }
     }
 
@@ -75,6 +81,7 @@ const OrderRow = ({ order, onUpdate }) => {
             },
             "can_create_transaction": 1
         };
+        setGlobalLoading(true);
         await fetch(`${API_URL_ADMIN}/sales/invoices/${order.id}`,
             {
                 method: "POST",
@@ -82,6 +89,7 @@ const OrderRow = ({ order, onUpdate }) => {
                 body: JSON.stringify(payBody)
             }
         );
+        setGlobalLoading(false);
 
         if (onUpdate) { onUpdate(); }
     }
@@ -89,7 +97,7 @@ const OrderRow = ({ order, onUpdate }) => {
     useEffect(() => {
         if (!order) { return; }
 
-        if (order?.invoices?.length > 0 && order?.shipments?.length > 0 ) {
+        if (order?.invoices?.length > 0 && order?.shipments?.length > 0) {
             setStatut("envoyé et payé");
         } else if (order?.invoices?.length > 0) {
             setStatut("payé");
@@ -100,6 +108,11 @@ const OrderRow = ({ order, onUpdate }) => {
         }
     }, [order]);
 
+    useEffect(() => {
+        console.log(globalLoading);
+
+    }, [globalLoading])
+
     return (
         <tr>
             <td>{order?.id}</td>
@@ -108,8 +121,20 @@ const OrderRow = ({ order, onUpdate }) => {
             <td>{order?.status_label} - {statut}</td>
             <td>
                 <div className="flex items-center gap-2">
-                    <button onClick={handleShipment} className="btn btn-neutral btn-xs" >ship</button>
-                    <button onClick={handlePay} className="btn btn-neutral btn-xs" >pay</button>
+                    {order?.shipments?.length > 0 ?
+                        <p>envoyer</p>
+                        :
+                        <button disabled={globalLoading} onClick={handleShipment} className="btn btn-neutral btn-xs" >ship</button>
+                    }
+                </div>
+            </td>
+            <td>
+                <div className="flex items-center gap-2">
+                    {order?.invoices?.length > 0 ?
+                        <p>payer</p>
+                        :
+                        <button disabled={globalLoading} onClick={handlePay} className="btn btn-neutral btn-xs" >pay</button>
+                    }
                 </div>
             </td>
         </tr>

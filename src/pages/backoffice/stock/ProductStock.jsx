@@ -15,24 +15,33 @@ const ProductStock = () => {
     const [isQttDetailsProcessing, setisQttDetailsProcessing] = useState(false);
     const [stockDetails, setStockDetails] = useState({});
 
+    const stockBro = useRef(new GuestBro());
+    const detailBro = useRef(new GuestBro());
+
     const getAvailableQtt = async () => {
+        if (stockBro.current.isWorking) {
+            return;
+        }
         if (isQttAvailableProcessing || productId == undefined || productId == null) {
             return;
         }
         setIsAvailableQttProcessing(true);
-        const bro = new GuestBro();
-        const broQTT = await bro.getAvailableStock(productId);
+        // const bro = new GuestBro();
+        const broQTT = await stockBro.current.getAvailableStock(productId);
         setStockQtt(broQTT);
         setIsAvailableQttProcessing(false);
     }
 
     const getWaitingQtt = async () => {
+        if (detailBro.current.isWorking) {
+            return;
+        }
         if (isQttAvailableProcessing || productId == undefined || productId == null) {
             return;
         }
         setisQttDetailsProcessing(true);
-        const bro = new GuestBro();
-        const productStockDetails = await bro.getStockDetailsOfProduct(productId);
+        // const bro = new GuestBro();
+        const productStockDetails = await detailBro.current.getStockDetailsOfProduct(productId);
         setStockDetails(productStockDetails);
         setisQttDetailsProcessing(false);
     }
