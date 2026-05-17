@@ -3,7 +3,6 @@ import { getAuthAdminHeader, useAdminFetch, useFetch } from "../../../hooks/useH
 import { API_URL_ADMIN } from "../../../lib/const.js";
 import { useParams } from "react-router-dom";
 import { GuestBro } from "../../../services/GuestBro.js";
-import { span } from "motion/react-client";
 import { useNotification } from "../../../context/NotificationContext.jsx";
 
 const ProductStock = () => {
@@ -29,7 +28,7 @@ const ProductStock = () => {
         }
         setIsAvailableQttProcessing(true);
         // const bro = new GuestBro();
-        const broQTT = await stockBro.current.getAvailableStock(productId);
+        const broQTT = await stockBro.current.getAvailableStock(productId, { afterEach: setStockQtt });
         setStockQtt(broQTT);
         setIsAvailableQttProcessing(false);
     }
@@ -90,24 +89,52 @@ const ProductStock = () => {
         <div className="flex flex-col p-2">
             <div className="flex">{product?.name}</div>
 
-            <div className="flex">
-                stock reel:
+            <div className="flex gap-2">
+                <span>
+                    stock reel:
+                </span>
+
                 {isQttAvailableProcessing || isQttDetailsProcessing ? <span className="loading loading-ring loading-xs"></span> : <div className="span">{stockReel}</div>}
             </div>
-            <div className="flex">
-                stock disponible:
-                {isQttAvailableProcessing ? <span className="loading loading-ring loading-xs"></span> : <div className="span">{stockQtt}</div>}
+            <div className="flex gap-2">
+                <span>
+                    stock disponible:
+                </span>
+
+                {isQttAvailableProcessing &&
+                    <>
+                        <span className="text-neutral-300">{stockQtt}</span>
+                        <span className="loading loading-ring loading-xs"></span>
+                    </>
+                }
+                {!isQttAvailableProcessing &&
+                    <>
+                        <span>{stockQtt}</span>
+                    </>
+                }
             </div>
-            <div className="flex">
-                stock total commander:
+
+            <div className="flex gap-2">
+                <span>
+                    stock total commander:
+                </span>
+
                 {isQttDetailsProcessing ? <span className="loading loading-ring loading-xs"></span> : <div className="span">{stockDetails?.orderQtt}</div>}
             </div>
-            <div className="flex">
-                stock envoyer:
+
+            <div className="flex gap-2">
+                <span>
+                    stock envoyer:
+                </span>
+
                 {isQttDetailsProcessing ? <span className="loading loading-ring loading-xs"></span> : <div className="span">{stockDetails?.outQtt}</div>}
             </div>
-            <div className="flex">
-                stock commandee en attente:
+
+            <div className="flex gap-2">
+                <span>
+                    stock commandee en attente:
+                </span>
+
                 {isQttDetailsProcessing ? <span className="loading loading-ring loading-xs"></span> : <div className="span">{stockDetails?.waitingQtt}</div>}
             </div>
 

@@ -77,10 +77,10 @@ const ImageImport = () => {
     }
 
     return (
-        <div className="flex gap-4 p-2">
-            <div className="flex flex-col gap-1.5 capitalize">
+        <div className="flex gap-28 px-8 py-4">
+            <div className="flex flex-col gap-1.5 capitalize w-fit">
                 <div className="flex text-sm text-neutral-500">product image</div>
-                <div className="flex flex-col gap-2 w-3xl">
+                <div className="flex flex-col gap-2">
                     <input
                         type="file"
                         accept=".zip"
@@ -101,15 +101,15 @@ const ImageImport = () => {
                 </div>
             </div>
 
-            <div className="flex flex-col flex-wrap gap-5">
+            <div className="flex flex-wrap gap-4">
                 {images.map((img, index) => (
-                    <div key={index}>
-                        <p>{img.name}</p>
+                    <div key={index} className="flex flex-col gap-2 border border-neutral-200 rounded-sm p-2">
                         <img
                             src={img.url}
                             alt={img.name}
-                            className="w-xs h-xs min-w-xs min-h-xs"
+                            className="w-28 h-28 min-w-28 min-h-28 rounded-sm"
                         />
+                        <div className="max-w-28 truncate text-neutral-800 text-sm">{img.name}</div>
                     </div>
                 ))}
             </div>

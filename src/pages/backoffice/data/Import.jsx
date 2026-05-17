@@ -2,6 +2,7 @@ import { useState } from "react";
 import CsvReader from "../../../components/reader/CsvReader.jsx";
 import { useNotification } from "../../../context/NotificationContext.jsx";
 import { DataImport } from "../../../services/DataImport.js";
+import JsonView from "@uiw/react-json-view";
 
 const Import = () => {
     const { notify, setGlobalLoading } = useNotification();
@@ -51,31 +52,39 @@ const Import = () => {
     }
 
     return (
-        <div className="flex flex-col gap-4 p-2">
-            <div className="flex flex-col gap-1.5 relative">
-                <label htmlFor="">products</label>
-                <div className="flex gap-4 relative">
-                    <input checked={importProducts} onChange={(e) => setImportProduct(e.target.checked)} type="checkbox" className="checkbox relative top-1" />
-                    <CsvReader onRead={setProductData} />
+        <div className="flex gap-12">
+            <div className="flex flex-col gap-4 px-8 p-4">
+                <div className="flex flex-col gap-1.5 relative">
+                    <label htmlFor="">products</label>
+                    <div className="flex gap-4 relative">
+                        <input checked={importProducts} onChange={(e) => setImportProduct(e.target.checked)} type="checkbox" className="checkbox relative top-1" />
+                        <CsvReader onRead={setProductData} />
+                    </div>
                 </div>
-            </div>
-            <div className="flex flex-col gap-1.5 relative">
-                <label htmlFor="">clients</label>
-                <div className="flex gap-4 relative">
-                    <input checked={importClients} onChange={(e) => setImportClients(e.target.checked)} type="checkbox" className="checkbox relative top-1" />
-                    <CsvReader onRead={setClientData} />
+                <div className="flex flex-col gap-1.5 relative">
+                    <label htmlFor="">clients</label>
+                    <div className="flex gap-4 relative">
+                        <input checked={importClients} onChange={(e) => setImportClients(e.target.checked)} type="checkbox" className="checkbox relative top-1" />
+                        <CsvReader onRead={setClientData} />
+                    </div>
+
+                </div>
+                <div className="flex flex-col gap-1.5 relative">
+                    <label htmlFor="">orders</label>
+                    <div className="flex gap-4 relative">
+                        <input checked={importOrders} onChange={(e) => setImportOrder(e.target.checked)} type="checkbox" className="checkbox relative top-1" />
+                        <CsvReader onRead={setOrderData} />
+                    </div>
                 </div>
 
-            </div>
-            <div className="flex flex-col gap-1.5 relative">
-                <label htmlFor="">orders</label>
-                <div className="flex gap-4 relative">
-                    <input checked={importOrders} onChange={(e) => setImportOrder(e.target.checked)} type="checkbox" className="checkbox relative top-1" />
-                    <CsvReader onRead={setOrderData} />
-                </div>
+                <button disabled={loading} onClick={handleTest} className="btn btn-neutral btn-sm w-xs">import</button>
             </div>
 
-            <button disabled={loading} onClick={handleTest} className="btn btn-neutral btn-sm w-xs">import</button>
+            <div className="flex gap-8">
+                {productData && <JsonView value={productData.data} />}
+                {clientData && <JsonView value={clientData.data} />}
+                {orderData && <JsonView value={orderData.data} />}
+            </div>
         </div>
     )
 }

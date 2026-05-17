@@ -29,7 +29,7 @@ export class GuestBro {
         }
     }
 
-    async getAvailableStock(productId: string) {
+    async getAvailableStock(productId: string, todo: { afterEach: (number: any) => void }): Promise<number> {
         this.isWorking = true;
         await this.init();
         await this.deleteFromBroCart(productId);
@@ -66,6 +66,10 @@ export class GuestBro {
             if (pQtt != undefined && pQtt > result) {
                 result = pQtt;
                 again = true;
+
+                if (todo?.afterEach) {
+                    todo.afterEach(result);
+                }
             }
         }
 
