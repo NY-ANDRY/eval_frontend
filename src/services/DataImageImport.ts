@@ -209,8 +209,8 @@ export class DataImageImport {
             formData.append("special_price", String(product.special_price));
         }
         // prix promo fona n miasa ra null tony
-        formData.append("special_price_from", "2000-01-01");
-        formData.append("special_price_to", "2000-01-01");
+        // formData.append("special_price_from", "2000-01-01");
+        // formData.append("special_price_to", "2000-01-01");
         //
         formData.append("meta_keywords", "meta keyword");
         formData.append("brand", "17");

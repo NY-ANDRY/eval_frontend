@@ -19,7 +19,6 @@ export class DataRemove {
         await this.resetCustomer();
         await this.resetCategory();
         await this.resetProduct();
-        await this.resetCategoriesProducts();
     }
 
     async resetCustomer() {
@@ -72,40 +71,6 @@ export class DataRemove {
             };
             page++;
         }
-    }
-
-    async resetCategoriesProducts() {
-        for (let i = 0; i < this.categories.length; i++) {
-            const category = this.categories[i]
-            if (!category) {
-                continue;
-            }
-
-            await this.resetCategoryProduct(category);
-        }
-    }
-
-    async resetCategoryProduct(category: Category) {
-        let page = 1;
-
-        let breakk = false;
-        while (!breakk) {
-            breakk = true;
-
-            const pRes = await fetch(`${API_URL_CLIENT}/products?category_id=${category?.id}&page=${page}&limit=${this.fetchPageLimit}`);
-            const pResData = await pRes.json();
-
-            category.ids_products = [];
-            for (let j = 0; j < pResData.data.length; j++) {
-                category.ids_products.push(pResData.data[j].id);
-            }
-
-            if (pResData.data && pResData.data.length >= this.fetchPageLimit) {
-                breakk = false;
-            };
-            page++;
-        }
-
     }
 
     async resetProduct() {
@@ -281,6 +246,7 @@ export class DataRemove {
 
         this.notify(`guest bro added`);
     }
+
     async addAbcDefault() {
         this.notify(`add abc default`);
 
