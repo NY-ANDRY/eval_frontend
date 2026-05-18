@@ -137,7 +137,9 @@ export class ProductImport {
             display_mode: "products_and_description",
             description: "category: " + categorie,
             attributes: attributes,
-            slug: categorie
+            slug: categorie,
+            parent_id: 1,
+            status: 1
         };
 
         const res1 = await fetch(`${API_URL_ADMIN}/catalog/categories`, {

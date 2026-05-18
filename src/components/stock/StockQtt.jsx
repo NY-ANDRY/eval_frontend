@@ -12,6 +12,7 @@ const StockQtt = ({ productId }) => {
         setIsProcessing(true);
         const bro = new GuestBro();
         const broQTT = await bro.getAvailableStock(productId);
+        // const broQTT = await bro.getStockPanierAdaptApi(productId);
         setStockQtt(broQTT);
         setIsProcessing(false);
     }

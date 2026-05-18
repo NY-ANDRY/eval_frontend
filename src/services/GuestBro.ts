@@ -29,6 +29,27 @@ export class GuestBro {
         }
     }
 
+    async getStockAdaptApi(productId: string) {
+        const aah = getAuthAdminHeader();
+        const res = await fetch(`${HOST_URL}/adapt/product_stock`, {
+            method: "POST",
+            headers: aah,
+            body: JSON.stringify({
+                "id_product": productId
+            })
+        });
+        const resData = await res.json();
+        return resData.data;
+    }
+    async getStockReelAdaptApi(productId: string): Promise<number> {
+        const result: any = await this.getStockAdaptApi(productId);
+        return result.reel.qty;
+    }
+    async getStockPanierAdaptApi(productId: string): Promise<number> {
+        const result: any = await this.getStockAdaptApi(productId);
+        return result.panier.qty;
+    }
+
     async getAvailableStock(productId: string, todo: { afterEach: (number: any) => void }): Promise<number> {
         this.isWorking = true;
         await this.init();

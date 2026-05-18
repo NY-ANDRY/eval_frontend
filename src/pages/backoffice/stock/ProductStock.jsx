@@ -29,6 +29,7 @@ const ProductStock = () => {
         setIsAvailableQttProcessing(true);
         // const bro = new GuestBro();
         const broQTT = await stockBro.current.getAvailableStock(productId, { afterEach: setStockQtt });
+        // const broQTT = await stockBro.current.getStockPanierAdaptApi(productId);
         setStockQtt(broQTT);
         setIsAvailableQttProcessing(false);
     }
@@ -142,6 +143,39 @@ const ProductStock = () => {
                 <input onChange={(e) => setAddStock(e.target.value)} value={addStock} type="number" className="input input-sm w-24" />
                 <button type="submit" className="btn btn-sm">ajouter</button>
             </form>
+
+            <div class="stats stats-vertical lg:stats-vertical shadow w-xs">
+                <div class="stat">
+                    <div class="stat-title">stock reel</div>
+                    <div class="stat-value">
+                        {isQttAvailableProcessing || isQttDetailsProcessing ? <span className="loading loading-ring loading"></span> : <div className="span">{stockReel}</div>}
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-title">stock disponible</div>
+                    <div class="stat-value flex items-center gap-2">
+                        {isQttAvailableProcessing ?
+                            <>
+                                <span className="text-neutral-300">{stockQtt}</span>
+                                <span className="loading loading-ring loading"></span>
+                            </>
+                            :
+                            <>
+                                <span>{stockQtt}</span>
+                            </>
+                        }
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-title">commande en attente</div>
+                    <div class="stat-value">
+                        {isQttDetailsProcessing ? <span className="loading loading-ring loading"></span> : <div className="span">{stockDetails?.waitingQtt}</div>}
+                    </div>
+                </div>
+            </div>
+
         </div>
     )
 }
