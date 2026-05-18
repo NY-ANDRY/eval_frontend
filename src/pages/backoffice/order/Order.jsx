@@ -4,19 +4,21 @@ import { API_URL_ADMIN } from "../../../lib/const";
 import { getAuthAdminHeader } from "../../../hooks/useHttpRequest.js";
 import { useNotification } from "../../../context/NotificationContext.jsx";
 import { TableSkeletons } from "../../../components/skeleton/Skeletons.jsx";
+import { formatDate } from "../../../lib/utils.js";
 
 const Order = () => {
     const { data: ordersData, refetch: refechOrderData, loading } = useAdminFetch(`${API_URL_ADMIN}/sales/orders?limit=1000`);
 
     return (
         <div className="flex flex-col gap-2">
-            <div className="px-4 py-2 font-bold capitalize text-2xl">orders</div>
+            <div className="px-2 py-2 font-bold capitalize text-2xl">orders</div>
             {loading && <TableSkeletons />}
             {!loading &&
-                <table className="table table-sm">
+                <table className="table">
                     <thead>
                         <tr>
                             <th>id</th>
+                            <th>date</th>
                             <th>formatted_grand_total</th>
                             <th>email</th>
                             <th>status_label</th>
@@ -118,6 +120,7 @@ const OrderRow = ({ order, onUpdate }) => {
     return (
         <tr>
             <td>{order?.id}</td>
+            <td>{formatDate(order?.created_at)}</td>
             <td>{order?.formatted_grand_total}</td>
             <td>{order?.customer?.email}</td>
             <td>{order?.status_label} - {statut}</td>
@@ -126,7 +129,7 @@ const OrderRow = ({ order, onUpdate }) => {
                     {order?.shipments?.length > 0 ?
                         <p>envoyer</p>
                         :
-                        <button disabled={globalLoading} onClick={handleShipment} className="btn btn-neutral btn-xs" >ship</button>
+                        <button disabled={globalLoading} onClick={handleShipment} className="btn btn-neutral btn-sm" >ship</button>
                     }
                 </div>
             </td>
@@ -135,7 +138,7 @@ const OrderRow = ({ order, onUpdate }) => {
                     {order?.invoices?.length > 0 ?
                         <p>payer</p>
                         :
-                        <button disabled={globalLoading} onClick={handlePay} className="btn btn-neutral btn-xs" >pay</button>
+                        <button disabled={globalLoading} onClick={handlePay} className="btn btn-neutral btn-sm" >pay</button>
                     }
                 </div>
             </td>

@@ -19,7 +19,7 @@ const navs = [
       },
       {
         label: "stock",
-        url: "/backoffice/stocks",
+        url: "/backoffice/stock",
         icon: <BoxIcon />
       }
     ]

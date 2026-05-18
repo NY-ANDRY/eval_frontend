@@ -1,4 +1,3 @@
-import { useNotification } from "../context/NotificationContext.jsx";
 import ListCategories from "../components/categories/ListCategories.jsx";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -9,7 +8,6 @@ import { ProductSkeletons } from "../components/skeleton/Skeletons.jsx";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { notify } = useNotification();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { data: selectedCategoryProducts, loading: loadingSelectedCategoryProduct } = useClientFetch(`${API_URL_CLIENT}/products?category_id=${selectedCategory}`);
 

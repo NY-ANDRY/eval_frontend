@@ -65,6 +65,7 @@ export class DataImport {
             page++;
         }
     }
+
     async resetProduct() {
         let page = 1;
         this.products = [];
@@ -217,7 +218,6 @@ export class DataImport {
                 const val = Number(obj[key]);
                 if (val < 0) {
                     throw new Error(`${key} doit etre toujour positif: ${val} => index: ${obj_index}`);
-                    
                 }
             }
         })
@@ -347,7 +347,6 @@ export class DataImport {
 
         return result;
     }
-
 
     // stringOrderItem: {["sk-l";1],["sk-m";2]}
     makeOrderItemToJson(stringOrderItem: string): OrderItemCsv[] {

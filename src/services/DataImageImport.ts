@@ -7,7 +7,6 @@ export class DataImageImport {
 
     images: ImageZip[] = [];
 
-    categories: Category[] = [];
     products: Product[] = [];
 
     fetchPageLimit: number = 1000;
@@ -17,69 +16,7 @@ export class DataImageImport {
     }
 
     async init() {
-        await this.resetCategory();
         await this.resetProduct();
-        await this.resetCategoriesProducts();
-    }
-
-    async resetCategory() {
-        let page = 1;
-        this.categories = [];
-
-        let breakk = false;
-        while (!breakk) {
-            breakk = true;
-
-            const res = await fetch(`${API_URL_ADMIN}/catalog/categories?page=${page}&limit=${this.fetchPageLimit}`,
-                {
-                    headers: getAuthAdminHeader()
-                }
-            );
-            const data = await res.json();
-
-            for (let i = 0; i < data.data.length; i++) {
-                this.categories.push(data.data[i]);
-            }
-
-            if (data.data && data.data.length >= this.fetchPageLimit) {
-                breakk = false;
-            };
-            page++;
-        }
-    }
-
-    async resetCategoriesProducts() {
-        for (let i = 0; i < this.categories.length; i++) {
-            const category = this.categories[i]
-            if (!category) {
-                continue;
-            }
-
-            await this.resetCategoryProduct(category);
-        }
-    }
-
-    async resetCategoryProduct(category: Category) {
-        let page = 1;
-
-        let breakk = false;
-        while (!breakk) {
-            breakk = true;
-
-            const pRes = await fetch(`${API_URL_CLIENT}/products?category_id=${category?.id}&page=${page}&limit=${this.fetchPageLimit}`);
-            const pResData = await pRes.json();
-
-            category.ids_products = [];
-            for (let j = 0; j < pResData.data.length; j++) {
-                category.ids_products.push(pResData.data[j].id);
-            }
-
-            if (pResData.data && pResData.data.length >= this.fetchPageLimit) {
-                breakk = false;
-            };
-            page++;
-        }
-
     }
 
     async resetProduct() {
@@ -120,7 +57,7 @@ export class DataImageImport {
                 continue;
             }
 
-            this.makeProduct(product);
+            // this.makeProduct(product);
             const pImages: File[] = this.getImages(product);
 
             try {
@@ -166,29 +103,6 @@ export class DataImageImport {
         return result;
     }
 
-    // manampy category iany lo atreto
-    makeProduct(product: Product) {
-
-        product.categories = [];
-
-        for (let i = 0; i < this.categories.length; i++) {
-            const curCategory = this.categories[i];
-
-            if (curCategory?.ids_products == null || curCategory?.ids_products == undefined) {
-                continue;
-            }
-
-            for (let j = 0; j < curCategory.ids_products.length; j++) {
-
-                if (curCategory.ids_products[j] == product?.id) {
-                    product.categories.push(curCategory.id);
-                    break;
-                }
-
-            }
-        }
-    }
-
     async importImageOfProduct(product: Product, imageFiles: File[]): Promise<void> {
         if (!product) return;
         if (imageFiles.length <= 0) {
@@ -196,26 +110,27 @@ export class DataImageImport {
             return;
         }
 
-        // console.log(product);
-
         const formData = new FormData();
 
         formData.append("_method", "PUT");
-
         formData.append("new", "1");
         formData.append("meta_description", "meta desc");
         formData.append("channel", "default");
-        if (product.special_price) {
-            formData.append("special_price", String(product.special_price));
-        }
-        // prix promo fona n miasa ra null tony
-        // formData.append("special_price_from", "2000-01-01");
-        // formData.append("special_price_to", "2000-01-01");
-        //
         formData.append("meta_keywords", "meta keyword");
         formData.append("brand", "17");
-        if (product.price) {
-            formData.append("price", String(product.price));
+        formData.append("guest_checkout", "1");
+        formData.append("featured", "1");
+        formData.append("status", "1");
+        formData.append("visible_individually", "1");
+        formData.append("weight", "10");
+        formData.append("product_number", "");
+        formData.append("short_description", "short desc");
+        formData.append("manage_stock", "1");
+        formData.append("description", "desc");
+        if (product.sku) {
+            formData.append("url_key", product.sku);
+            formData.append("sku", product.sku);
+            formData.append("meta_title", product.sku);
         }
         if (product.name) {
             formData.append("name", product.name);
@@ -223,27 +138,25 @@ export class DataImageImport {
         if (product.cost) {
             formData.append("cost", String(product.cost));
         }
-        formData.append("guest_checkout", "1");
-        formData.append("featured", "1");
-        if (product.sku) {
-            formData.append("url_key", product.sku);
-            formData.append("sku", product.sku);
-            formData.append("meta_title", product.sku);
+        if (product.price) {
+            formData.append("price", String(product.price));
         }
-        formData.append("status", "1");
-        formData.append("visible_individually", "1");
-        formData.append("weight", "10");
-        formData.append("product_number", "");
-        formData.append("short_description", "short desc");
+        if (product.special_price) {
+            formData.append("special_price", String(product.special_price));
+        }
+        // prix promo fona n miasa ra null tony
+        // formData.append("special_price_from", "2000-01-01");
+        // formData.append("special_price_to", "2000-01-01");
+        //
         // formData.append("locale", "all"); // lasa tsy miditra n name sy description ra misy anty
-        formData.append("manage_stock", "1");
-        formData.append("description", "desc");
         // formData.append("inventories[1]", String(productCsv.stock_initial)); // tsy kitiana de tsy miova n stock
-
-        if (product.categories) {
-            formData.append("categories[]", product.categories.join(","));
+        for (let i = 0; i < product.categories.length; i++) {
+            const ctg = product.categories[i];
+            if (!ctg) {
+                continue;
+            }
+            formData.append("categories[]", ctg?.id);
         }
-
         for (let i = 0; i < imageFiles.length; i++) {
             const curFile = imageFiles[i];
             if (!curFile) {
@@ -257,7 +170,6 @@ export class DataImageImport {
         // }
 
         let authHeader = getAuthAdminHeader();
-
         await fetch(`${API_URL_ADMIN}/catalog/products/${product?.id}`, {
             method: "POST",
             headers: {
@@ -269,22 +181,9 @@ export class DataImageImport {
         this.notify("image " + product.sku + " importer");
     }
 
-    getProductBySku(sku: string): Product | null {
-
-        for (let i = 0; i < this.products.length; i++) {
-            const element = this.products[i];
-            if (element?.sku == sku) {
-                return element;
-            }
-        }
-
-        return null;
-    }
-
     setNotify(notify: any) {
         this.notify = notify;
     }
-
 
     logState() {
         console.log("------------------ log state begin --------------------");

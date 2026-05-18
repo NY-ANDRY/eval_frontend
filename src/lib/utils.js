@@ -5,6 +5,7 @@ export const formatDateFr = (str) => {
     year: "numeric",
   });
 };
+
 export const formatDateTimeFr = (str) => {
   return new Date(str).toLocaleString("fr-FR", {
     year: "numeric",
@@ -16,9 +17,19 @@ export const formatDateTimeFr = (str) => {
   });
 };
 
+export const formatDate = (str) => {
+  let result = new Date(str).toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+  return result.replace(/\//g, "-");
+};
+
 export const datePicktoDateTime = (datePickerValue) => {
   return new Date(datePickerValue).toISOString().slice(0, 19);
 };
+
 export const datePicktoDate = (datePickerValue) => {
   const y = datePickerValue.getFullYear();
   const m = String(datePickerValue.getMonth() + 1).padStart(2, "0");

@@ -2,11 +2,11 @@ export const CategorySkeletons = ({ nb = 1 }) => {
     return (
         <>
             {Array.from({ length: nb }).map((_, i) => (
-                <div class="flex items-center gap-6 px-2 py-4">
-                    <div class="skeleton h-16 w-16 shrink-0 mask mask-squircle"></div>
-                    <div class="flex flex-col gap-4">
-                        <div class="skeleton h-4 w-20"></div>
-                        <div class="skeleton h-4 w-28"></div>
+                <div className="flex items-center gap-6 px-2 py-4">
+                    <div className="skeleton h-16 w-16 shrink-0 mask mask-squircle"></div>
+                    <div className="flex flex-col gap-4">
+                        <div className="skeleton h-4 w-20"></div>
+                        <div className="skeleton h-4 w-28"></div>
                     </div>
                 </div>
             ))}
@@ -37,9 +37,9 @@ export const TableSkeletons = ({ rows = 10 }) => {
     return (
         <>
             <div className="flex flex-col gap-1 w-full">
-                <div className="skeleton h-8 w-full rounded-sm"></div>
+                <div className="skeleton h-12 w-full rounded-sm"></div>
                 {Array.from({ length: rows }).map((_, i) => (
-                    <div className="skeleton h-6 w-full rounded-sm"></div>
+                    <div className="skeleton h-12 w-full rounded-sm"></div>
                 ))}
             </div>
         </>

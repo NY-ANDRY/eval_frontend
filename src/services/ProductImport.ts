@@ -18,16 +18,17 @@ export class ProductImport {
         this.notify(`import de ${productsCsv.length} produits`);
 
         for (let i = 0; i < productsCsv.length; i++) {
-            if (productsCsv[i] != undefined) {
-                await this.importProduct(productsCsv[i]);
+            const pCsv = productsCsv[i];
+            if (!pCsv) {
+                continue;
             }
+            await this.importProduct(pCsv);
         }
 
         this.notify(`import de ${productsCsv.length} produits terminer`);
     }
 
-    async importProduct(productCsv: ProductCsv | undefined): Promise<void> {
-        if (!productCsv) return;
+    async importProduct(productCsv: ProductCsv): Promise<void> {
         let prod: Product | null = this.dataImport.getProductBySku(productCsv.sku);
 
         if (prod == null) {
@@ -49,10 +50,37 @@ export class ProductImport {
         const formData = new FormData();
 
         formData.append("_method", "PUT");
-
         formData.append("new", "1");
         formData.append("meta_description", "meta desc");
         formData.append("channel", "default");
+        formData.append("meta_keywords", "meta keyword");
+        formData.append("brand", "17");
+        formData.append("guest_checkout", "1");
+        formData.append("featured", "1");
+        formData.append("status", "1");
+        formData.append("visible_individually", "1");
+        formData.append("weight", "10");
+        formData.append("product_number", "");
+        formData.append("short_description", "short desc");
+        formData.append("manage_stock", "1");
+        formData.append("description", "desc");
+        if (productCsv.name) {
+            formData.append("name", productCsv.name);
+        }
+        if (productCsv.sku) {
+            formData.append("url_key", productCsv.sku);
+            formData.append("sku", productCsv.sku);
+            formData.append("meta_title", productCsv.sku);
+        }
+        if (productCsv.stock_initial) {
+            formData.append("inventories[1]", String(productCsv.stock_initial));
+        }
+        if (productCsv.prix_vente) {
+            formData.append("price", String(productCsv.prix_vente));
+        }
+        if (productCsv.prix_achat) {
+            formData.append("cost", String(productCsv.prix_achat));
+        }
         if (productCsv.prix_promo) {
             formData.append("special_price", String(productCsv.prix_promo));
         }
@@ -60,39 +88,18 @@ export class ProductImport {
         // formData.append("special_price_from", "2000-01-01");
         // formData.append("special_price_to", "2000-01-01");
         //
-        formData.append("meta_keywords", "meta keyword");
-        formData.append("brand", "17");
-        if (productCsv.prix_vente) {
-            formData.append("price", String(productCsv.prix_vente));
-        }
-        if (productCsv.name) {
-            formData.append("name", productCsv.name);
-        }
-        if (productCsv.prix_achat) {
-            formData.append("cost", String(productCsv.prix_achat));
-        }
-        formData.append("guest_checkout", "1");
-        formData.append("featured", "1");
-        if (productCsv.sku) {
-            formData.append("url_key", productCsv.sku);
-            formData.append("sku", productCsv.sku);
-            formData.append("meta_title", productCsv.sku);
-        }
-        formData.append("status", "1");
-        formData.append("visible_individually", "1");
-        formData.append("weight", "10");
-        formData.append("product_number", "");
-        formData.append("short_description", "short desc");
         // formData.append("locale", "all"); // lasa tsy miditra n name sy description ra misy anty
-        formData.append("manage_stock", "1");
-        formData.append("description", "desc");
-        if (productCsv.stock_initial) {
-            formData.append("inventories[1]", String(productCsv.stock_initial));
+        for (let i = 0; i < curCategories.length; i++) {
+            const ctg = curCategories[i];
+            if (!ctg) {
+                continue;
+            }
+            formData.append("categories[]", ctg.toString());
         }
 
-        if (curCategories) {
-            formData.append("categories[]", curCategories.toString());
-        }
+        // for (const pair of formData.entries()) {
+        //     console.log(pair[0], pair[1]);
+        // }
 
         let authHeader = getAuthAdminHeader();
         await fetch(`${API_URL_ADMIN}/catalog/products/${prod?.id}`, {
@@ -105,7 +112,6 @@ export class ProductImport {
 
         this.notify("produit " + productCsv.sku + " importer");
     }
-
 
     async getOrCreateCategoriesIdsOf(productCsv: ProductCsv): Promise<number[]> {
         const result: number[] = [];
@@ -127,7 +133,7 @@ export class ProductImport {
 
     async createCtg(categorie: string): Promise<Category | null> {
 
-        const attributes: string[] = ["11"];
+        const attributes: string[] = ["11", "12", "13"];
 
         this.notify("ctg -- " + categorie);
         const reqBody = {

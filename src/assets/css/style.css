@@ -60,5 +60,5 @@ table td {
 }
 
 label {
-    @apply text-sm text-neutral-600 font-[inter-l];
+    @apply text-base capitalize text-neutral-600 font-[inter-l];
 }

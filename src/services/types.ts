@@ -39,7 +39,7 @@ export interface Category {
     created_at: string,
     updated_at: string,
 
-    ids_products: string[] | null | undefined
+    // ids_products: string[] | null | undefined
 }
 
 export interface Product {
@@ -49,7 +49,7 @@ export interface Product {
     price: string,
     cost: string,
     special_price: string,
-    categories: string[]
+    categories: Category[]
 }
 
 export interface Customer {

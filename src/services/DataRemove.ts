@@ -1,6 +1,5 @@
 import { getAuthAdminHeader, getAuthClientHeader } from "../hooks/useHttpRequest.js";
 import { API_URL_ADMIN, API_URL_CLIENT, HOST_URL } from "../lib/const.js";
-import { GuestBro } from "./GuestBro.js";
 import type { Category, Customer, Product } from "./types.js";
 
 export class DataRemove {
@@ -207,44 +206,11 @@ export class DataRemove {
         localStorage.removeItem("bagisto_guest_bro_token");
 
         try {
-            this.addGuestBro();
             this.addAbcDefault();
         } catch (error) {
         }
 
         this.notify(`clients [${idsCustomers}] supprimer`);
-    }
-
-    async addGuestBro() {
-        this.notify(`add guest bro`);
-
-        await fetch(`${API_URL_CLIENT}/customer/register`, {
-            method: "POST",
-            headers: getAuthClientHeader(),
-            body: JSON.stringify({
-                first_name: "bro",
-                last_name: "bro",
-                email: "bro@gmail.com",
-                password: "trust_me",
-                password_confirmation: "trust_me",
-            })
-        });
-
-        const res = await fetch(`${API_URL_CLIENT}/customer/login`, {
-            method: "POST",
-            headers: getAuthClientHeader(),
-            body: JSON.stringify({
-                email: "bro@gmail.com",
-                password: "trust_me",
-                device_name: "web"
-            })
-        });
-
-        const resData = await res.json();
-        localStorage.setItem("bagisto_guest_bro_token", resData.token);
-        GuestBro.Btoken_client = `Bearer ${resData.token}`;
-
-        this.notify(`guest bro added`);
     }
 
     async addAbcDefault() {

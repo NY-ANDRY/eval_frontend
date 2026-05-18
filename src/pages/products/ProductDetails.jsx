@@ -2,10 +2,8 @@ import { useParams } from "react-router-dom";
 import { useClientFetch } from "../../hooks/useHttpRequest";
 import { API_URL_CLIENT } from "../../lib/const";
 import { useEffect, useState } from "react";
-import { img } from "motion/react-client";
 import { useClientCart } from "../../context/ClientCartContext";
-import { Trash2Icon, PlusIcon, MinusIcon, ShoppingCart } from "lucide-react";
-import StockQtt from "../../components/stock/StockQtt.jsx";
+import { PlusIcon } from "lucide-react";
 
 const ProductDetails = ({ }) => {
     const { id } = useParams();
@@ -13,7 +11,6 @@ const ProductDetails = ({ }) => {
     const { addProductToCart } = useClientCart();
 
     const [qtt, setQtt] = useState(0);
-
     const [curImage, setCurImage] = useState('');
 
     useEffect(() => {
@@ -27,14 +24,12 @@ const ProductDetails = ({ }) => {
 
     }, [productData]);
 
-    const handleAddToCart = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         addProductToCart(productData.data, qtt)
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        handleAddToCart();
-    }
+    const product = productData?.data;
 
     return (
         <div className="flex gap-8 p-2">
@@ -57,8 +52,7 @@ const ProductDetails = ({ }) => {
                     <button type="submit" className="btn btn-sm btn-primary">valider</button>
                 </form>
                 <div className="flex items-center">
-                    <span>stock: </span>
-                    <StockQtt productId={id} />
+                    <span>stock: {product?.inventory_indices[0]?.qty}</span>
                 </div>
             </div>
         </div>
