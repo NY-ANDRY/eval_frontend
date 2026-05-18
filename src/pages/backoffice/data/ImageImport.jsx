@@ -77,7 +77,7 @@ const ImageImport = () => {
     }
 
     return (
-        <div className="flex gap-28 px-8 py-4">
+        <div className="flex gap-28">
             <div className="flex flex-col gap-1.5 capitalize w-fit">
                 <div className="flex text-sm text-neutral-500">product image</div>
                 <div className="flex flex-col gap-2">

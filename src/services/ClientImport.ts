@@ -17,17 +17,19 @@ export class ClientImport {
         }
         this.notify(`import de ${clientsCsv.length} clients`);
 
+        let nbOk = 0;
         for (let i = 0; i < clientsCsv.length; i++) {
             if (clientsCsv[i] != undefined) {
                 try {
                     await this.importClient(clientsCsv[i]);
+                    nbOk++;
                 } catch (error: any) {
                     this.notify(`client ${clientsCsv[i]?.email} non importer`);
                 }
             }
         }
 
-        this.notify(`import de ${clientsCsv.length} clients terminer`);
+        this.notify(`import de ${clientsCsv.length} clients terminer. ${nbOk}/${clientsCsv.length}`);
     }
 
     async importClient(clientCsv: ClientCsv | undefined) {

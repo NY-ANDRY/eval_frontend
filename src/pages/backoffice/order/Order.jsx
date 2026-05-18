@@ -11,7 +11,7 @@ const Order = () => {
 
     return (
         <div className="flex flex-col gap-2">
-            <div className="px-2 py-2 font-bold capitalize text-2xl">orders</div>
+            <div className="font-bold capitalize text-2xl">orders</div>
             {loading && <TableSkeletons />}
             {!loading &&
                 <table className="table">

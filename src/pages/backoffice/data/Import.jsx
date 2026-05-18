@@ -53,7 +53,7 @@ const Import = () => {
 
     return (
         <div className="flex gap-12">
-            <div className="flex flex-col gap-4 px-8 p-4">
+            <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5 relative">
                     <label htmlFor="">products</label>
                     <div className="flex gap-4 relative">

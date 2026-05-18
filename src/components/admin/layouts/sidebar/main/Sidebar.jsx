@@ -1,6 +1,6 @@
 import SidebarMainButton from "./SidebarMainButton";
 import SidebarFooterButton from "./SidebarFooterButton";
-import SidebarButton from "./SidebarButton";
+import SidebarButton from "./SidebarButton.jsx";
 import { GaugeIcon, FileTypeCorner, FileImageIcon, DatabaseIcon, ScrollIcon, BoxIcon } from "lucide-react";
 
 const navs = [
@@ -49,7 +49,7 @@ const navs = [
 const Sidebar = () => {
 
   return (
-    <nav className="flex flex-col border border-neutral-200 bg-neutral-50 w-60 gap-4 px-2 py-2">
+    <nav className="flex flex-col w-64 gap-4 px-2.5 py-2">
       <SidebarMainButton />
 
       {navs.map(nav => (

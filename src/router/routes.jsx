@@ -1,5 +1,5 @@
 import Login from "../components/auth/Login";
-import CategoryProducts from "../pages/categories/CategoryProducts";
+import CategoryProducts from "../pages/categories/CategoryProducts.jsx";
 import ReadFileExample from "../pages/examples/ReadFileExample";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";

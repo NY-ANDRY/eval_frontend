@@ -22,18 +22,20 @@ export class OrderImport {
 
         await this.resetLoginStore();
 
+        let nbOk = 0;
         for (let i = 0; i < ordersCsv.length; i++) {
             const orderCsv = ordersCsv[i];
             try {
                 this.notify(`import achat de ${orderCsv?.client} commencer`);
                 await this.importOrder(orderCsv);
-                this.notify(`import achat de ${orderCsv?.client} terminer`);
+                nbOk++;
+                this.notify(`import achat de ${orderCsv?.client} terminer. i: ${i+1}`);
             } catch (error) {
-                this.notify(`import achat de ${orderCsv?.client} terminer avec erreur`);
+                this.notify(`import achat de ${orderCsv?.client} terminer avec erreur. ${i+1} / ${ordersCsv.length}`);
             }
         }
 
-        this.notify(`import de ${ordersCsv.length} orders terminer`);
+        this.notify(`import de ${ordersCsv.length} orders terminer: ${nbOk}/${ordersCsv.length}`);
     }
 
     async importOrder(orderCsv: OrderCsv | undefined) {

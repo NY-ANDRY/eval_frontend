@@ -48,7 +48,7 @@ const ViewProducts = ({ product }) => {
                 }
             </div>
 
-            <div className="flex items-center justify-center max-w-full h-48 bg-neutral-50 rounded-sm">
+            <div className="flex items-center justify-center max-w-full h-48 bg-neutral-50 rounded-sm skeleton">
                 <img
                     src={product?.images?.length > 0 && product?.images[0].medium_image_url}
                     alt={product.meta_description}

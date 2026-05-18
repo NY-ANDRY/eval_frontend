@@ -17,15 +17,21 @@ export class ProductImport {
         }
         this.notify(`import de ${productsCsv.length} produits`);
 
+        let nbOk = 0;
         for (let i = 0; i < productsCsv.length; i++) {
             const pCsv = productsCsv[i];
             if (!pCsv) {
                 continue;
             }
-            await this.importProduct(pCsv);
+            try {
+                await this.importProduct(pCsv);
+                nbOk++;
+            } catch (error) {
+
+            }
         }
 
-        this.notify(`import de ${productsCsv.length} produits terminer`);
+        this.notify(`import de ${productsCsv.length} produits terminer. ${nbOk}/${productsCsv.length}`);
     }
 
     async importProduct(productCsv: ProductCsv): Promise<void> {

@@ -12,6 +12,7 @@ const Wishlist = () => {
                     <tr>
                         <th>product</th>
                         <th>date</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,6 +29,12 @@ const Wishlist = () => {
 export default Wishlist;
 
 const WishlistRow = ({ item }) => {
+    const { addProductToWishList } = useClientWishlist();
+
+    const handleRemove = (item) => {
+        // console.log(item.product);
+        addProductToWishList(item.product);
+    }
 
     return (
         <tr>
@@ -48,6 +55,9 @@ const WishlistRow = ({ item }) => {
             </td>
             <td>
                 {formatDateTimeFr(item.created_at)}
+            </td>
+            <td>
+                <button onClick={() => { handleRemove(item) }} className="btn btn-xs btn-neutral">remove</button>
             </td>
         </tr>
     )

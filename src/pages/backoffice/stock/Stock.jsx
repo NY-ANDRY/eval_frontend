@@ -7,7 +7,7 @@ const Stock = () => {
 
     return (
         <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between px-2 py-2">
+            <div className="flex items-center justify-between">
                 <div className="font-bold capitalize text-2xl">stock</div>
                 <Link to={`/backoffice/stock/modif`}>
                     <button className="btn btn-neutral btn-sm">

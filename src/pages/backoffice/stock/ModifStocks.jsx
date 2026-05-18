@@ -10,7 +10,7 @@ const ModifStocks = () => {
 
     return (
         <div className="flex flex-col">
-            <div className="flex items-center gap-4 px-2 py-2">
+            <div className="flex items-center gap-4">
                 <Link to={`/backoffice/stock`}>
                     <button className="btn btn-sm">
                         <ArrowLeftIcon className="w-4 h-4" />

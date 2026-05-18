@@ -20,7 +20,8 @@ const ListCategories = ({ onClickCategory }) => {
     return (
         <div className="grid grid-cols-1 flex-wrap gap-0 max-w-full overflow-hidden overflow-x-auto">
             {loadingCategories && <CategorySkeletons nb={3} />}
-            {categories?.data?.map((category, index) => (
+            {categories?.data?.map((category, index) => category.id != 1 && (
+
                 <a onClick={(e) => { handleClick(e, category) }} href={`/categories/${category.id}`} key={category.id} className="flex gap-6  px-2 py-4 border-b border-neutral-200 rounded-sm activable">
                     {category.logo_url ?
                         <img src={category.logo_url} className="w-16 h-16 mask mask-squircle" />

@@ -8,12 +8,12 @@ import { ProductSkeletons } from "../components/skeleton/Skeletons.jsx";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const { data: selectedCategoryProducts, loading: loadingSelectedCategoryProduct } = useClientFetch(`${API_URL_CLIENT}/products?category_id=${selectedCategory}`);
+  const [selectedCtg, setSelectedCtg] = useState(null);
+  const { data: selectedCtgProducts, loading } = useClientFetch(`${API_URL_CLIENT}/products?category_id=${selectedCtg}`);
 
   const hancleClickCategory = (category) => {
     // navigate(`/categories/${category.id}/products`);
-    setSelectedCategory(category.id);
+    setSelectedCtg(category.id);
   }
 
   return (
@@ -22,11 +22,11 @@ const Home = () => {
         <ListCategories onClickCategory={hancleClickCategory} />
       </div>
       <div className="flex-1 flex flex-wrap gap-4 p-4 h-fit">
-        {!loadingSelectedCategoryProduct && selectedCategoryProducts?.data?.map((categoryProduct) => (
+        {!loading && selectedCtgProducts?.data?.map((categoryProduct) => (
           <Product product={categoryProduct} />
         ))}
 
-        {loadingSelectedCategoryProduct && <ProductSkeletons nb={8} />}
+        {loading && <ProductSkeletons nb={8} />}
       </div>
     </div>
   );

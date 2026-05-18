@@ -41,3 +41,9 @@ export const datePicktoDate = (datePickerValue) => {
 
   return `${y}-${m}-${d}`;
 };
+
+export const limitText = (text, max = 20) => {
+  return text.length > max
+    ? text.slice(0, max) + "..."
+    : text;
+};
