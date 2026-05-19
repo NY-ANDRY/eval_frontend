@@ -28,7 +28,10 @@ const Order = () => {
                     </thead>
                     <tbody>
                         {ordersData?.data?.map((order, i) => (
+                            <>
+                            {i}
                             <OrderRow key={order.id} order={order} onUpdate={refechOrderData} />
+                            </>
                         ))}
                     </tbody>
                 </table>

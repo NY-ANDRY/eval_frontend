@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CsvReader from "../../../components/reader/CsvReader.jsx";
 import { useNotification } from "../../../context/NotificationContext.jsx";
 import { DataImport } from "../../../services/DataImport.js";
@@ -17,7 +17,11 @@ const Import = () => {
     const [importClients, setImportClients] = useState(true);
     const [importOrders, setImportOrder] = useState(true);
 
-    const handleTest = async () => {
+    // useEffect(() => {
+
+    // })
+
+    const handleImportAllFile = async () => {
         if (!productData || !clientData || !orderData) {
             notify("les 3 fichier sont requis", 3, "yellow")
             return;
@@ -77,7 +81,7 @@ const Import = () => {
                     </div>
                 </div>
 
-                <button disabled={loading} onClick={handleTest} className="btn btn-neutral btn-sm w-xs">import</button>
+                <button disabled={loading} onClick={handleImportAllFile} className="btn btn-neutral btn-sm w-xs">import</button>
             </div>
 
             <div className="flex gap-8">

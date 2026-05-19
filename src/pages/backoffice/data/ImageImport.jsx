@@ -55,7 +55,7 @@ const ImageImport = () => {
         return extractedImages;
     };
 
-    const handleImport = async () => {
+    const handleImportImages = async () => {
         if (images.length <= 0) {
             return;
         }
@@ -91,7 +91,7 @@ const ImageImport = () => {
                     {
                         images.length > 0 &&
                         <button
-                            onClick={handleImport}
+                            onClick={handleImportImages}
                             disabled={loading}
                             className="btn btn-sm btn-primary w-xs"
                         >

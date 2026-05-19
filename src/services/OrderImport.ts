@@ -22,6 +22,8 @@ export class OrderImport {
 
         await this.resetLoginStore();
 
+        // ordersCsv.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
         let nbOk = 0;
         for (let i = 0; i < ordersCsv.length; i++) {
             const orderCsv = ordersCsv[i];
@@ -244,22 +246,21 @@ export class OrderImport {
                 continue;
             }
 
-            try {
-                await fetch(`${API_URL_CLIENT}/customer/cart/add/${curProduct?.id}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: token,
-                    },
-                    body: JSON.stringify({
-                        "product_id": curProduct?.id,
-                        "is_buy_now": 0,
-                        "quantity": curOrder?.qtt
-                    })
-                });
-            } catch (error) {
-                this.notify(`${curProduct.name} stock indisponible`);
-            }
+            const res = await fetch(`${API_URL_CLIENT}/customer/cart/add/${curProduct?.id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: token,
+                },
+                body: JSON.stringify({
+                    "product_id": curProduct?.id,
+                    "is_buy_now": 0,
+                    "quantity": curOrder?.qtt
+                })
+            });
+            // if (res.status == 400) {
+            //     throw new Error("stock insuffisant");
+            // }
         }
     }
 
