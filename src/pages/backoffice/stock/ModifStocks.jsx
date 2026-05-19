@@ -1,12 +1,51 @@
 import { getAuthAdminHeader, useAdminFetch } from "../../../hooks/useHttpRequest.js";
 import { API_URL_ADMIN } from "../../../lib/const.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNotification } from "../../../context/NotificationContext.jsx";
 import { Link } from "react-router-dom";
 import { ArrowLeftIcon } from "lucide-react";
 
 const ModifStocks = () => {
-    const { data: products, refetch: refetchStock } = useAdminFetch(`${API_URL_ADMIN}/catalog/products?limit=1000`);
+    const { data: productsData, refetch: refetchStock } = useAdminFetch(`${API_URL_ADMIN}/catalog/products?limit=1000`);
+    const [showProducts, setShowProducts] = useState([]);
+
+    useEffect(() => {
+        if (productsData?.data) {
+            setShowProducts(productsData.data);
+        }
+    }, [productsData]);
+
+    const handleSearch = (txt) => {
+        if (!productsData) {
+            return;
+        }
+        if (txt == "") {
+            setShowProducts(productsData?.data);
+            return;
+        }
+
+        const result = [];
+        for (let i = 0; i < productsData.data.length; i++) {
+            const prd = productsData.data[i];
+
+            console.log(`${prd.name.toLowerCase()} include ${txt.toLowerCase()}`);
+            if (prd.name.toLowerCase().includes(txt.toLowerCase())) {
+                console.log("--");
+                
+                result.push(prd);
+                continue;
+            }
+            if (prd.sku.toLowerCase().includes(txt.toLowerCase())) {
+                console.log("--");
+                
+                result.push(prd);
+                continue;
+            }
+        }
+        console.log(result);
+        
+        setShowProducts(result);
+    }
 
     return (
         <div className="flex flex-col">
@@ -19,22 +58,17 @@ const ModifStocks = () => {
                 <div className="font-bold capitalize text-2xl">modifier stock</div>
             </div>
 
-            <table className="table table-sm">
-                <thead>
-                    <tr>
-                        <th>product</th>
-                        <th>stock reel</th>
-                        <th>stock disponible</th>
-                        <th>modification stock</th>
-                        <th>stock</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {products?.data?.map((product) => (
-                        <ModifStockRow key={product.id} product={product} onUpdate={refetchStock} />
-                    ))}
-                </tbody>
-            </table>
+            <div className="flex flex-col gap-4">
+
+                <div className="p-4 pb-2 text-xs opacity-60 tracking-wide">Modifier le stock d'un produit</div>
+                <input onChange={(e) => handleSearch(e.target.value)} type="text" className="input" />
+
+                {showProducts?.map((product) => (
+                    <ModifStockRow key={product.id} product={product} onUpdate={refetchStock} />
+                ))}
+
+            </div>
+
         </div>
     )
 }
@@ -76,21 +110,60 @@ const ModifStockRow = ({ product, onUpdate }) => {
     }
 
     return (
-        <tr key={product.id}>
-            <td>{product.name}</td>
-            <td>{product.inventories[0].qty}</td>
-            <td>{product.inventory_indices[0].qty}</td>
-            <td>
-                <div className="flex items-center gap-4">
+        <>
+            <div class="flex flex-col gap-8 w-full border border-neutral-200 rounded-sm p-4">
+                <div className="flex justify-between">
+
+                    <div className="flex gap-4">
+                        <div>
+                            {product?.images[0]?.large_image_url ?
+                                <img class="size-10 rounded-box" src={product?.images[0]?.large_image_url} />
+                                :
+                                <div class="size-10 rounded-box skeleton" />
+                            }
+                        </div>
+                        <div>
+                            <div>{product.name}</div>
+                            <div class="text-xs uppercase font-semibold opacity-60">
+                                {product?.categories?.map((category) => (
+                                    <span>{category.name}</span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                        <div class="flex items-center gap-2 relative">
+                            <span className="text-neutral-400 font-thin text-xs relative top-1">
+                                stock
+                            </span>
+                            <span className="font-bold text-xl">
+                                {product?.inventories[0]?.qty}
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-2 relative">
+                            <span className="text-neutral-400 font-thin text-xs relative top-1">
+                                stock
+                            </span>
+                            <span className="font-bold text-xl">
+                                {product.inventory_indices[0].qty}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="flex items-end justify-between">
+                    <div className="flex text-2xl font-medium">
+                        {product.sku}
+                    </div>
                     <form onSubmit={(e) => { handleSubmit(e) }} className="flex items-center gap-2">
-                        <input onChange={(e) => setNewStock(e.target.value)} value={newStock} type="number" className="input input-sm w-24" />
+                        <input onChange={(e) => setNewStock(e.target.value)} value={newStock} type="number" className="input input-sm w-48" />
                         <button type="submit" className="btn btn-sm">ajouter</button>
                     </form>
                 </div>
-            </td>
-            <td>
-                <Link to={`/backoffice/products/${product.id}/stock`} className="btn btn-sm btn-primary">voir</Link>
-            </td>
-        </tr>
+            </div>
+
+        </>
     )
 }

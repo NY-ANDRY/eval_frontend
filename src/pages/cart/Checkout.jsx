@@ -1,15 +1,15 @@
-import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../context/NotificationContext";
 import { useClientFetch, useClientMutation } from "../../hooks/useHttpRequest";
 import { API_URL_CLIENT } from "../../lib/const";
 import { useEffect, useState } from "react";
 import { useClientAuth } from "../../context/ClientAuthContext";
+import { useClientCart } from "../../context/ClientCartContext.jsx";
 
 const Checkout = () => {
 
     const { notify } = useNotification();
-    const navigate = useNavigate();
     const { user } = useClientAuth();
+    const { cartItems } = useClientCart();
 
     const { data: countries } = useClientFetch(`${API_URL_CLIENT}/countries?limit=1000`);
 
@@ -34,6 +34,8 @@ const Checkout = () => {
 
     const [paymentMethodList, setPaymentMethodList] = useState([]);
     const [paymentMethod, setPaymentMethod] = useState("cashondelivery");
+
+    const [workflowEnd, setWorkflowEnd] = useState(false);
 
     const saveAddress = async () => {
         const dataAddress = {
@@ -76,7 +78,7 @@ const Checkout = () => {
         };
         notify("payment method saved");
         await mutateSavePayment(dataPayment);
-
+        setWorkflowEnd(true);
     }
 
     const saveOrder = async () => {
@@ -112,8 +114,8 @@ const Checkout = () => {
     }, [countries])
 
     return (
-        <div className="flex flex-col py-4 max-w-full p-2">
-            <div className="flex py-4 gap-2 w-full">
+        <div className="flex justify-between py-4 max-w-full p-2">
+            <div className="flex flex-col py-4 gap-4">
                 <div className="flex flex-col w-sm gap-2">
                     <div className="flex flex-col gap-2">
 
@@ -199,50 +201,95 @@ const Checkout = () => {
                     <button onClick={saveAddress} className="btn btn-sm btn-primary w-xs">save adresse</button>
                 </div>
 
-                <div className="flex flex-col">
+                {shippingMethodList && shippingMethodList.length > 0 &&
+                    <div className="flex flex-col gap-2">
 
-                    <select onChange={(e) => setShippingMethod(e.target.value)} className="select select-sm">
-                        {shippingMethodList?.map((methodd, i) => (
+                        <select onChange={(e) => setShippingMethod(e.target.value)} className="select select-sm">
+                            {shippingMethodList?.map((methodd, i) => (
 
-                            <option
-                                key={methodd?.rates?.length > 0 && methodd?.rates[0].method}
-                                value={methodd?.rates?.length > 0 && methodd?.rates[0].method}
-                            >
-                                {methodd?.rates?.length > 0 && methodd?.rates[0].method}
-                            </option>
+                                <option
+                                    key={methodd?.rates?.length > 0 && methodd?.rates[0].method}
+                                    value={methodd?.rates?.length > 0 && methodd?.rates[0].method}
+                                >
+                                    {methodd?.rates?.length > 0 && methodd?.rates[0].method}
+                                </option>
 
-                        ))}
-                    </select>
+                            ))}
+                        </select>
 
-                    <button onClick={saveShipping} className="btn btn-sm btn-primary w-xs">save methode d'expedition</button>
-                </div>
+                        <button onClick={saveShipping} className="btn btn-sm btn-primary w-xs">save methode d'expedition</button>
+                    </div>
+                }
 
+                {paymentMethodList && paymentMethodList.length > 0 &&
+                    <div className="flex flex-col gap-2">
 
-                <div className="flex flex-col">
+                        <select onChange={(e) => setPaymentMethod(e.target.value)} className="select select-sm">
+                            {paymentMethodList?.map((methodd, i) => (
 
-                    <select onChange={(e) => setPaymentMethod(e.target.value)} className="select select-sm">
-                        {paymentMethodList?.map((methodd, i) => (
+                                <option
+                                    key={methodd?.method}
+                                    value={methodd?.method}
+                                >
+                                    {methodd?.method}
+                                </option>
 
-                            <option
-                                key={methodd?.method}
-                                value={methodd?.method}
-                            >
-                                {methodd?.method}
-                            </option>
+                            ))}
+                        </select>
 
-                        ))}
-                    </select>
+                        <button onClick={savePayment} className="btn btn-sm btn-primary w-xs">save method de payement</button>
+                    </div>
+                }
 
-                    <button onClick={savePayment} className="btn btn-sm btn-primary w-xs">save method de payement</button>
-                </div>
-
-                <div className="flex flex-col">
-                    <button onClick={saveOrder} className="btn btn-sm btn-primary w-xs">save order</button>
-                </div>
+                {
+                    workflowEnd &&
+                    <div className="flex flex-col gap-2">
+                        <button onClick={saveOrder} className="btn btn-sm btn-primary w-xs">save order</button>
+                    </div>
+                }
 
             </div>
-            <div className="flex flex-col pt-8">
-                <button onClick={saveAll} className="btn btn-sm btn-neutral w-xs">save all</button>
+
+            <div className="flex flex-col gap-2">
+
+                <table className="table table-xs w-sm">
+                    <thead>
+                        <tr>
+                            <th>product</th>
+                            <th>nb</th>
+                            <th>pu</th>
+                            <th>total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {cartItems?.data?.items?.map(((item, i) => (
+                            <tr key={item.id}>
+                                <td>
+                                    <div className="flex gap-2">
+                                        <img src={item?.product?.base_image?.small_image_url} className="w-16 rounded" />
+                                        <div className="flex flex-col gap-2 pt-0.5 pb-2">
+                                            <div className="flex text-base">
+                                                {item?.product?.name}
+                                            </div>
+                                            <div className="flex w-xs  leading-tight text-neutral-400" dangerouslySetInnerHTML={{ __html: item?.product?.short_description }}></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{item.quantity}</td>
+                                <td>{item.formatted_base_price}</td>
+                                <td>{item.formatted_total}</td>
+                            </tr>)))}
+                    </tbody>
+                </table>
+
+                <div className="flex items-center justify-between">
+                    <div className="flex"></div>
+                    <div className="flex font-semibold text-xl">
+                        {cartItems?.data?.formatted_grand_total}
+                    </div>
+                </div>
+
+                <button onClick={saveAll} className="btn btn-sm btn-neutral w-full">save all</button>
             </div>
         </div>
     )

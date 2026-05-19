@@ -29,9 +29,9 @@ export class OrderImport {
                 this.notify(`import achat de ${orderCsv?.client} commencer`);
                 await this.importOrder(orderCsv);
                 nbOk++;
-                this.notify(`import achat de ${orderCsv?.client} terminer. i: ${i+1}`);
+                this.notify(`import achat de ${orderCsv?.client} terminer. i: ${i + 1}`);
             } catch (error) {
-                this.notify(`import achat de ${orderCsv?.client} terminer avec erreur. ${i+1} / ${ordersCsv.length}`);
+                this.notify(`import achat de ${orderCsv?.client} terminer avec erreur. ${i + 1} / ${ordersCsv.length}`);
             }
         }
 
@@ -244,18 +244,22 @@ export class OrderImport {
                 continue;
             }
 
-            await fetch(`${API_URL_CLIENT}/customer/cart/add/${curProduct?.id}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: token,
-                },
-                body: JSON.stringify({
-                    "product_id": curProduct?.id,
-                    "is_buy_now": 0,
-                    "quantity": curOrder?.qtt
-                })
-            });
+            try {
+                await fetch(`${API_URL_CLIENT}/customer/cart/add/${curProduct?.id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: token,
+                    },
+                    body: JSON.stringify({
+                        "product_id": curProduct?.id,
+                        "is_buy_now": 0,
+                        "quantity": curOrder?.qtt
+                    })
+                });
+            } catch (error) {
+                this.notify(`${curProduct.name} stock indisponible`);
+            }
         }
     }
 

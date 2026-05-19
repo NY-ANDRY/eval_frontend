@@ -23,6 +23,7 @@ export class ClientImport {
                 try {
                     await this.importClient(clientsCsv[i]);
                     nbOk++;
+                    this.notify(`client ${clientsCsv[i]?.email} importer`);
                 } catch (error: any) {
                     this.notify(`client ${clientsCsv[i]?.email} non importer`);
                 }

@@ -26,7 +26,7 @@ const Layout = ({ children }) => {
             <motion.div
               key={location.pathname}
               {...fade}
-              className="flex-1 flex flex-col w-full max-h-full overflow-hidden overflow-y-auto pt-4 px-4"
+              className="flex-1 flex flex-col w-full max-h-full overflow-auto pt-4 px-4"
             >
               {outlet}
             </motion.div>
