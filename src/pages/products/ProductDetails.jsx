@@ -27,7 +27,7 @@ const ProductDetails = ({ }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        addProductToCart(productData.data, qtt)
+        addProductToCart(productData.data.id, qtt)
     }
 
     const addQtt = () => {

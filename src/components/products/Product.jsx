@@ -11,7 +11,7 @@ const ViewProducts = ({ product }) => {
     const [qtt, setQtt] = useState(1);
 
     const handleAddToCart = () => {
-        addProductToCart(product, qtt);
+        addProductToCart(product.id, qtt);
     }
 
     const handleAddToWishList = () => {

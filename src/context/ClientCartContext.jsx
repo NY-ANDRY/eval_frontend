@@ -11,15 +11,15 @@ export const ClientCartProvider = ({ children }) => {
   const { mutate: mutateRemoveCart } = useClientMutation(`${API_URL_CLIENT}/customer/cart/remove`, 'DELETE');
   const { mutate: mutateUpdateCart } = useClientMutation(`${API_URL_CLIENT}/customer/cart/update`, 'PUT');
 
-  const addProductToCart = async (product, qtt) => {
+  const addProductToCart = async (productId, qtt) => {
 
     const bodyToSend = {
-      'product_id': product.id,
+      'product_id': productId,
       'is_buy_now': 0,
       'quantity': qtt,
     };
 
-    const res = await fetch(`${API_URL_CLIENT}/customer/cart/add/${product.id}`, {
+    const res = await fetch(`${API_URL_CLIENT}/customer/cart/add/${productId}`, {
       method: 'POST',
       headers: getAuthHeaders("client"),
       body: JSON.stringify(bodyToSend),
