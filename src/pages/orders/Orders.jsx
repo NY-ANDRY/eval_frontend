@@ -17,7 +17,6 @@ const Orders = ({ }) => {
                         <th>statut</th>
                         <th>date</th>
                         <th>total</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,13 +26,6 @@ const Orders = ({ }) => {
                             <td>{order.status_label}</td>
                             <td>{formatDateFr(order.updated_at)}</td>
                             <td>{order.formatted_grand_total}</td>
-                            <td>
-                                <div className="flex w-fit">
-                                    <Link to={`/orders/${order.id}`}>
-                                    <button className="btn btn-xs btn-neutral">voir</button>
-                                    </Link>
-                                </div>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
