@@ -15,7 +15,7 @@ const Header = () => {
                 <Link to={'/wishlist'} className="p-2">
                     <SparklesIcon className="w-6" />
                 </Link>
-                <Link to={'/order'} className="p-2">
+                <Link to={'/orders'} className="p-2">
                     <ScrollTextIcon className="w-6" />
                 </Link>
                 <Link to={'/cart'} className="p-2">

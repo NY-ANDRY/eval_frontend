@@ -6,7 +6,8 @@ import NotFound from "../pages/NotFound";
 import Cart from "../pages/cart/Cart";
 import Checkout from "../pages/cart/Checkout";
 import ProductDetails from "../pages/products/ProductDetails";
-import Order from "../pages/orders/Order";
+import Orders from "../pages/orders/Orders.jsx";
+import Order from "../pages/orders/Order.jsx";
 import Layout from "../components/layouts/Layout";
 import BackOfficeLayout from "../components/admin/layouts/Layout";
 import AdminLogin from "../pages/backoffice/auth/Login";
@@ -104,8 +105,12 @@ const routes = [
         element: <Checkout />,
       },
       {
-        path: "order",
+        path: "orders/:id",
         element: <Order />,
+      },
+      {
+        path: "orders",
+        element: <Orders />,
       },
       {
         path: "examples/csv",
