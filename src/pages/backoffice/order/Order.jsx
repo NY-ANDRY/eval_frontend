@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { getAuthHeaders, useAdminFetch } from "../../../hooks/useHttpRequest.js";
+import { useAdminFetch } from "../../../hooks/useHttpRequest.js";
 import { API_URL_ADMIN } from "../../../lib/const";
-import { getAuthAdminHeader } from "../../../hooks/useHttpRequest.js";
 import { useNotification } from "../../../context/NotificationContext.jsx";
 import { TableSkeletons } from "../../../components/skeleton/Skeletons.jsx";
 import { formatDate } from "../../../lib/utils.js";
+import { doShipment, doPaiment } from "../../../services/orderService.jsx";
 
 const Order = () => {
     const { data: ordersData, refetch: refechOrderData, loading } = useAdminFetch(`${API_URL_ADMIN}/sales/orders?limit=1000`);
@@ -28,10 +28,7 @@ const Order = () => {
                     </thead>
                     <tbody>
                         {ordersData?.data?.map((order, i) => (
-                            <>
-                                {i}
-                                <OrderRow key={order.id} order={order} onUpdate={refechOrderData} />
-                            </>
+                            <OrderRow key={order.id} order={order} onUpdate={refechOrderData} />
                         ))}
                     </tbody>
                 </table>
@@ -48,55 +45,21 @@ const OrderRow = ({ order, onUpdate }) => {
     const [statut, setStatut] = useState("");
 
     const handleShipment = async () => {
-        let shipmentItems = {};
-        for (let i = 0; i < order.items.length; i++) {
-            const item = order.items[i];
-            shipmentItems[item.id] = {
-                "1": item.qty_ordered
-                // [1]: item.qty_ordered
-            }
-        }
-        const shipmentBody = {
-            "shipment": {
-                "carrier_title": "DHL Shipment",
-                "track_number": "12345",
-                "source": 1,
-                "total_qty": order.total_qty_ordered,
-                "items": shipmentItems
-            }
-        };
+
         setGlobalLoading(true);
-        await fetch(`${API_URL_ADMIN}/sales/shipments/${order.id}`,
-            {
-                method: "POST",
-                headers: getAuthAdminHeader(),
-                body: JSON.stringify(shipmentBody)
-            }
-        );
+
+        await doShipment(order);
+
         setGlobalLoading(false);
         if (onUpdate) { onUpdate(); }
     }
 
     const handlePay = async () => {
-        let payItems = {};
-        for (let i = 0; i < order.items.length; i++) {
-            const item = order.items[i];
-            payItems[item.id] = item.qty_ordered
-        }
-        const payBody = {
-            "invoice": {
-                "items": payItems
-            },
-            "can_create_transaction": 1
-        };
+
         setGlobalLoading(true);
-        await fetch(`${API_URL_ADMIN}/sales/invoices/${order.id}`,
-            {
-                method: "POST",
-                headers: getAuthHeaders("admin"),
-                body: JSON.stringify(payBody)
-            }
-        );
+
+        await doPaiment(order);
+
         setGlobalLoading(false);
 
         if (onUpdate) { onUpdate(); }

@@ -30,6 +30,21 @@ export const formatDate = (str) => {
   return result;
 };
 
+const getDiffMs = (date1, date2) =>
+  Math.abs(new Date(date2).getTime() - new Date(date1).getTime());
+
+export const getSecondBetween = (date1, date2) =>
+  getDiffMs(date1, date2) / 1000;
+
+export const getMinuteBetween = (date1, date2) =>
+  getDiffMs(date1, date2) / (1000 * 60);
+
+export const getHourBetween = (date1, date2) =>
+  getDiffMs(date1, date2) / (1000 * 60 * 60);
+
+export const getDayBetween = (date1, date2) =>
+  getDiffMs(date1, date2) / (1000 * 60 * 60 * 24);
+
 export const datePicktoDateTime = (datePickerValue) => {
   return new Date(datePickerValue).toISOString().slice(0, 19);
 };
@@ -43,7 +58,5 @@ export const datePicktoDate = (datePickerValue) => {
 };
 
 export const limitText = (text, max = 20) => {
-  return text.length > max
-    ? text.slice(0, max) + "..."
-    : text;
+  return text.length > max ? text.slice(0, max) + "..." : text;
 };

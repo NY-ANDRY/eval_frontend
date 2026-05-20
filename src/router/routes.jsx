@@ -19,6 +19,7 @@ import ImageImport from "../pages/backoffice/data/ImageImport.jsx";
 import Wishlist from "../components/cart/Wishlist.jsx";
 import Stock from "../pages/backoffice/stock/Stock.jsx";
 import ModifStock from "../pages/backoffice/stock/ModifStocks.jsx";
+import HomeBackoffice from "../pages/backoffice/Home.jsx";
 
 const routes = [
   {
@@ -38,7 +39,7 @@ const routes = [
         children: [
           {
             path: "",
-            element: <>homeee</>
+            element: <HomeBackoffice />
           },
           {
             path: "order",
