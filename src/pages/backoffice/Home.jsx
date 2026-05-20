@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getSecondBetween } from "../../lib/utils.js";
-import { input } from "motion/react-client";
 
 const Home = () => {
 
