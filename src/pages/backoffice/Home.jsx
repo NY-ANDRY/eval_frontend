@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getSecondBetween } from "../../lib/utils.js";
+import { input } from "motion/react-client";
 
 const Home = () => {
 
@@ -12,9 +13,20 @@ const Home = () => {
         setTest(getSecondBetween(d1, d2));
     }, [])
 
+    const [inputTest, setInputTest] = useState(false);
+    useEffect(() => {
+        console.log(inputTest);
+        
+    }, [inputTest])
+
     return (
-        <div className="flex">
+        <div className="flex flex-col">
+            <div className="flex">
             {test}
+            </div>
+            <div className="flex">
+                <input onChange={(e) => setInputTest(e.target.checked)} type="checkbox" className="checkbox" />
+            </div>
         </div>
     )
 }
