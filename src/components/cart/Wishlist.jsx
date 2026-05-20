@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { useClientWishlist } from "../../context/ClientWishlistContext.jsx";
 import { formatDateTimeFr } from "../../lib/utils.js";
+import { useClientCart } from "../../context/ClientCartContext.jsx";
 
 const Wishlist = () => {
     const { wishlistItemsData } = useClientWishlist();
@@ -12,6 +14,7 @@ const Wishlist = () => {
                     <tr>
                         <th>product</th>
                         <th>date</th>
+                        <th></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -29,11 +32,18 @@ const Wishlist = () => {
 export default Wishlist;
 
 const WishlistRow = ({ item }) => {
-    const { addProductToWishList } = useClientWishlist();
+    const { addProductToWishList, moveToCart } = useClientWishlist();
+    const { refetchCartItem } = useClientCart();
 
-    const handleRemove = (item) => {
+    const handleRemove = () => {
         // console.log(item.product);
-        addProductToWishList(item.product);
+        addProductToWishList(item.product.id);
+    }
+
+    const [moveNb, setMoveNb] = useState(1);
+    const handleMoveToCart = async () => {
+        await moveToCart(item.product.id, moveNb);
+        refetchCartItem();
     }
 
     return (
@@ -57,7 +67,11 @@ const WishlistRow = ({ item }) => {
                 {formatDateTimeFr(item.created_at)}
             </td>
             <td>
-                <button onClick={() => { handleRemove(item) }} className="btn btn-xs btn-neutral">remove</button>
+                <button onClick={handleRemove} className="btn btn-xs btn-neutral">remove</button>
+            </td>
+            <td>
+                <input value={moveNb} onChange={(e) => setMoveNb(e.target.value)} type="number" className="input input-sm w-32 mr-2" />
+                <button onClick={handleMoveToCart} className="btn btn-xs btn-neutral">move</button>
             </td>
         </tr>
     )

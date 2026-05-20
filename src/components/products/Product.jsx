@@ -15,7 +15,7 @@ const ViewProducts = ({ product }) => {
     }
 
     const handleAddToWishList = () => {
-        addProductToWishList(product);
+        addProductToWishList(product.id);
     }
 
     useEffect(() => {
