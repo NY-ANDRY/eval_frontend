@@ -105,7 +105,17 @@ const ProductDetails = ({ }) => {
 
                 <div className="flex flex-col mt-8 mb-4">
                     <div className="flex text-4xl font-bold">
-                        {product?.formatted_price}
+                        {product?.special_price ?
+                            <>
+                                <div className="flex">{product?.formatted_special_price}</div>
+                                <div className="flex text-neutral-300">{product?.formatted_regular_price}</div>
+                            </>
+                            :
+                            <>
+                                <div className="flex">{product?.formatted_price}</div>
+                            </>
+                        }
+                        {/* {product?.formatted_price} */}
                     </div>
                     <div className="flex text-neutral-400 mt-4">
                         {product?.description}

@@ -82,13 +82,43 @@ export class ProductImport {
             formData.append("inventories[1]", String(productCsv.stock_initial));
         }
         if (productCsv.prix_vente) {
-            formData.append("price", String(productCsv.prix_vente));
+            let nb = productCsv.prix_vente.toString();
+            let strNb = nb.split(",");
+            let val = 0;
+            if (strNb.length > 1) {
+                val = Number(strNb[0]);
+            } else {
+                val = productCsv.prix_vente;
+            }
+            console.log(nb);
+
+            formData.append("price", String(productCsv.prix_vente).replace(",", "."));
         }
         if (productCsv.prix_achat) {
-            formData.append("cost", String(productCsv.prix_achat));
+            let nb = productCsv.prix_achat.toString();
+            let strNb = nb.split(",");
+            let val = 0;
+            if (strNb.length > 1) {
+                val = Number(strNb[0]);
+            } else {
+                val = productCsv.prix_achat;
+            }
+            console.log(nb);
+
+            formData.append("cost", String(productCsv.prix_achat).replace(",", "."));
         }
         if (productCsv.prix_promo) {
-            formData.append("special_price", String(productCsv.prix_promo));
+            let nb = productCsv.prix_promo.toString();
+            let strNb = nb.split(",");
+            let val = 0;
+            if (strNb.length > 1) {
+                val = Number(strNb[0]);
+            } else {
+                val = productCsv.prix_promo;
+            }
+            console.log(nb);
+
+            formData.append("special_price", String(productCsv.prix_promo).replace(",", "."));
         }
         // prix promo fona n miasa ra null tony
         // formData.append("special_price_from", "2000-01-01");

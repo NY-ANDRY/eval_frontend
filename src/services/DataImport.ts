@@ -155,6 +155,8 @@ export class DataImport {
 
         this.checkPositifValue(curProducts, toBePositif);
 
+        console.log(curProducts);
+        
         this.productsCsv = curProducts;
     }
 
@@ -229,7 +231,7 @@ export class DataImport {
         if (
             parts.length !== 3 ||
             parts[0]?.length !== 2 ||
-            parts[1]?.length !== 2 ||
+            // parts[1]?.length !== 2 ||
             parts[2]?.length !== 4
         ) {
             throw new Error(`format de date invalide: DD/MM/YYYY -> ${date}`);
@@ -378,7 +380,7 @@ export class DataImport {
             });
         });
 
-        console.log(result);
+        // console.log(result);
 
 
         return result;
