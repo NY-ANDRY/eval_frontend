@@ -29,8 +29,8 @@ const Order = () => {
                     <tbody>
                         {ordersData?.data?.map((order, i) => (
                             <>
-                            {i}
-                            <OrderRow key={order.id} order={order} onUpdate={refechOrderData} />
+                                {i}
+                                <OrderRow key={order.id} order={order} onUpdate={refechOrderData} />
                             </>
                         ))}
                     </tbody>
@@ -53,6 +53,7 @@ const OrderRow = ({ order, onUpdate }) => {
             const item = order.items[i];
             shipmentItems[item.id] = {
                 "1": item.qty_ordered
+                // [1]: item.qty_ordered
             }
         }
         const shipmentBody = {

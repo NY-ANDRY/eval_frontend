@@ -2,9 +2,18 @@ import { Link } from "react-router-dom";
 import { useAdminFetch } from "../../../hooks/useHttpRequest.js";
 import { API_URL_ADMIN } from "../../../lib/const.js";
 import { TableSkeletons } from "../../../components/skeleton/Skeletons.jsx";
+import { useEffect, useState } from "react";
 
 const Stock = () => {
-    const { data: products, loading } = useAdminFetch(`${API_URL_ADMIN}/catalog/products?limit=1000`);
+    const { data: productsData, loading } = useAdminFetch(`${API_URL_ADMIN}/catalog/products?limit=1000`);
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        if (productsData) {
+            setProducts(productsData.data);
+        }
+    }, [productsData]);
 
     return (
         <div className="flex flex-col gap-2">
@@ -27,7 +36,7 @@ const Stock = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products?.data?.map((product) => (
+                        {products.map((product) => (
                             <tr key={product.id}>
                                 <td>{product.name}</td>
                                 <td>{product.inventories[0].qty}</td>
