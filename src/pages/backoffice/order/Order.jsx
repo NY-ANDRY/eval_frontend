@@ -4,7 +4,7 @@ import { API_URL_ADMIN } from "../../../lib/const";
 import { useNotification } from "../../../context/NotificationContext.jsx";
 import { TableSkeletons } from "../../../components/skeleton/Skeletons.jsx";
 import { formatDate } from "../../../lib/utils.js";
-import { doShipment, doPaiment } from "../../../services/orderService.jsx";
+import { doShipment, doPaiment } from "../../../services/orderService.js";
 
 const Order = () => {
     const { data: ordersData, refetch: refechOrderData, loading } = useAdminFetch(`${API_URL_ADMIN}/sales/orders?limit=1000`);
@@ -90,7 +90,11 @@ const OrderRow = ({ order, onUpdate }) => {
             <td>{formatDate(order?.created_at)}</td>
             <td>{order?.formatted_grand_total}</td>
             <td>{order?.customer?.email}</td>
-            <td>{order?.status_label} - {statut}</td>
+            <td>
+                <div className="badge badge-neutral font-semibold">
+                    {order?.status_label} - {statut}
+                </div>
+            </td>
             <td>
                 <div className="flex items-center gap-2">
                     {order?.shipments?.length > 0 ?
